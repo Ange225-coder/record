@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Sign-up | password{% endblock %}
+
+{% block body %}
+    <section>
+        <h1>Créer un mot de passe</h1>
+
+        <p>Il doit contenir minimum 10 caractères</p>
+
+        {{ form_start(pwdForm, {'attr' : {'novalidate' : 'novalidate'}}) }}
+            <div>
+                <div>
+                    {{ form_label(pwdForm.password) }}<br >
+                    {{ form_widget(pwdForm.password) }}
+                    {{ form_errors(pwdForm.password) }}
+                </div>
+
+                <div>
+                    {{ form_label(pwdForm.confirmPwd) }}<br >
+                    {{ form_widget(pwdForm.confirmPwd) }}
+                    {{ form_errors(pwdForm.confirmPwd) }}
+                </div>
+
+                <div>
+                    <button type="submit">Créer un compte</button>
+                </div>
+            </div>
+        {{ form_end(pwdForm) }}
+    </section>
+{% endblock %}

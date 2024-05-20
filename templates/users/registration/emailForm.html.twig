@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Sign-up | email{% endblock %}
+
+{% block body %}
+    <section>
+        <h1>Créer un compte</h1>
+
+        {{ form_start(emailForm, {'attr' : {'novalidate' : 'novalidate'}}) }}
+            <div>
+                {{ form_label(emailForm.email) }}<br>
+                {{ form_widget(emailForm.email) }}
+                {{ form_errors(emailForm.email) }}
+            </div>
+
+            <button type="submit" style="margin-top: 15px">Continuer avec une adresse email</button>
+        {{ form_end(emailForm) }}
+    </section>
+{% endblock %}

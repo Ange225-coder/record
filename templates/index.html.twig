@@ -1,0 +1,75 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Record | Accueil{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {#  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous"> #}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+{% endblock %}
+
+{% block body %}
+    <section>
+        <h1>RECORD</h1>
+    </section>
+
+    {% if app.user %}
+        <p>
+            <i class="bi bi-bell"></i>
+        </p>
+    {% endif %}
+
+    <p>
+        <a href="#">Ajouter votre établissement</a>
+    </p>
+
+    {% if app.user %}
+        <div>
+            <details>
+                <summary>Votre compte</summary>
+
+                <div>
+                    <p>
+                        <a href="#">Gérer mon compte</a>
+                    </p>
+
+                    <p>
+                        <a href="#">Reservation et voyage</a>
+                    </p>
+
+                    <p>
+                        <a href="#">Portefeuille et recompense</a>
+                    </p>
+
+                    <p>
+                        <a href="#">Commentaires</a>
+                    </p>
+
+                    <p>
+                        <a href="#">Favoris</a>
+                    </p>
+
+                    <p>
+                        <a href="{{ path('user_logout') }}" style="color: red;">Déconnexion</a>
+                    </p>
+                </div>
+
+            </details>
+        </div>
+    {% endif %}
+
+
+    {% if app.user is null %}
+        <div>
+            <p>
+                <a href="{{ path('sign_up_email_form') }}">S'inscrire</a>
+            </p>
+
+            <p>
+                <a href="{{ path('user_login') }}">Se connecter</a>
+            </p>
+        </div>
+    {% endif %}
+
+
+{% endblock %}
