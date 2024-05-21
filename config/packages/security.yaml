@@ -9,10 +9,31 @@ security:
                 class: App\Entity\Tables\Users\Users
                 property: email
 
+
+        partners_in_database:
+            entity:
+                class: App\Entity\Tables\Partners\Partner
+                property: email
+
+
+
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+
+
+        #firewall for partners
+        partners:
+            pattern: ^/(partner)
+            lazy: true
+            provider: partners_in_database
+            custom_authenticator: App\Security\PartnersAuthenticator
+            entry_point: App\Security\PartnersAuthenticator
+            logout:
+                path: partner_logout
+                target: partner_home
+
 
         #firewall for users
         users:
@@ -31,6 +52,7 @@ security:
                 lifetime: 604800
                 path: /
                 always_remember_me: true
+
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall

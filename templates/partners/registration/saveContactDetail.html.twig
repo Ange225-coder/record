@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Coordonnées | Record.com{% endblock %}
+
+{% block body %}
+    <section>
+        <div>
+            <h1>Coordonnées</h1>
+
+            <p>
+                Veuillez fournir votre nom complet ainsi que votre numéro de téléphone pour garantir la sécurité de votre compte Record.com.
+            </p>
+        </div>
+
+        {{ form_start(contactDetailsForm, {'attr' : {'novalidate' : 'novalidate'}}) }}
+            <div>
+
+                <div>
+                    {{ form_label(contactDetailsForm.firstName) }}<br >
+                    {{ form_widget(contactDetailsForm.firstName) }}
+                    {{ form_errors(contactDetailsForm.firstName) }}
+                </div>
+
+                <div>
+                    {{ form_label(contactDetailsForm.lastName) }}<br >
+                    {{ form_widget(contactDetailsForm.lastName) }}
+                    {{ form_errors(contactDetailsForm.lastName) }}
+                </div>
+
+                <div>
+                    {{ form_label(contactDetailsForm.contact) }}<br >
+                    {{ form_widget(contactDetailsForm.contact) }}
+                    {{ form_errors(contactDetailsForm.contact) }}
+                </div>
+
+                <button type="submit">Suivant</button>
+            </div>
+
+        {{ form_end(contactDetailsForm) }}
+
+    </section>
+{% endblock %}

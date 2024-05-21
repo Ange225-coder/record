@@ -33,10 +33,11 @@
                 if($existingEmail) {
                     $emailFormTypes->get('email')->addError(new FormError('L\'e-mail n\'est pas valide ou a déjà été pris'));
                 }
+                else {
+                    $session->set('user_email', $emailFormFields->getEmail());
 
-                $session->set('user_email', $emailFormFields->getEmail());
-
-                return $this->redirectToRoute('sign_up_pwd_form');
+                    return $this->redirectToRoute('sign_up_pwd_form');
+                }
             }
 
             return $this->render('users/registration/emailForm.html.twig', [

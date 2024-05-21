@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer un compte | Record.com{% endblock %}
+
+{% block body %}
+    <section>
+        <div>
+            <h1>Créer votre compte partenaire</h1>
+
+            <p>Créer un compte pour inscrire et gérer votre établissement</p>
+        </div>
+
+        {{ form_start(emailForm, {'attr' : {'novalidate' : 'novalidate'}}) }}
+            <div>
+                {{ form_label(emailForm.email) }}<br >
+                {{ form_widget(emailForm.email) }}
+                {{ form_errors(emailForm.email) }}
+            </div>
+
+            <button type="submit">Continuer</button>
+        {{ form_end(emailForm) }}
+
+    </section>
+{% endblock %}

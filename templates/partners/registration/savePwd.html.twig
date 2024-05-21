@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer un mot de passe pour votre nouveau compte{% endblock %}
+
+{% block body %}
+    <section>
+        <div>
+            <h1>Créer un mot de passe</h1>
+
+            <p>Il doit comporter au moins 10 caractères</p>
+        </div>
+
+        {{ form_start(pwdForm, {'attr' : {'novalidate' : 'novalidate'}}) }}
+            <div>
+                <div>
+                    {{ form_label(pwdForm.password) }}<br >
+                    {{ form_widget(pwdForm.password) }}
+                    {{ form_errors(pwdForm.password) }}
+                </div>
+
+                <div>
+                    {{ form_label(pwdForm.confirmPwd) }}<br >
+                    {{ form_widget(pwdForm.confirmPwd) }}
+                    {{ form_errors(pwdForm.confirmPwd) }}
+                </div>
+
+                <button type="submit">Créer un compte</button>
+            </div>
+        {{ form_end(pwdForm) }}
+
+    </section>
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscrivez votre appartement{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+{% endblock %}
+
+{% block body %}
+    <section>
+
+        {% if app.user is null %}
+            <div>
+                <p>
+                    <a href="{{ path('partner_login') }}">Se connecter</a>
+                </p>
+
+                <p>
+                    <a href="{{ path('partner_registration_email') }}">Démarrer maintenant</a>
+                </p>
+            </div>
+        {% endif %}
+
+        {% if app.user %}
+            <details>
+                <summary><i class="bi bi-person-circle"></i> {{ app.user.firstName }} {{ app.user.lastName }}</summary>
+
+                <div>
+                    <p>
+                        <a href="#">Voir mes établissements</a>
+                    </p>
+
+                    <p>
+                        <a href="#">Ajouter un établissement</a>
+                    </p>
+
+                    <p>
+                        <a href="{{ path('partner_logout') }}" style="color: red;">Déconnexion</a>
+                    </p>
+                </div>
+            </details>
+        {% endif %}
+
+    </section>
+{% endblock %}
