@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription d'hébergement sur Record.com{% endblock %}
+
+{% block body %}
+    <section>
+        <div>
+            <p>Vous inscrivez : </p>
+
+            <h2>Un appartement que les clients peuvent réserver en intégralité</h2>
+        </div>
+
+        <div>
+            <p>Cela, correspond-il à votre hébergement</p>
+
+            <p>
+                <a href="{{ path('apartment_already_registered') }}">Continuer</a>
+            </p>
+
+            <p>
+                <a href="{{ path('partner_housing') }}">Non, modifier</a>
+            </p>
+        </div>
+
+    </section>
+
+
+
+
+{% endblock %}

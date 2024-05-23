@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription d'hébergement sur Record.com{% endblock%}
+
+{% block body %}
+    <div>
+        <h1>Où avez-vous inscrit votre hébergement ?</h1>
+
+        <p>
+            Si votre hébergement est enregistré sur Airbnb ou Vrbo, vous pouvez l'inscrire plus vite sur Record.com en important vos informations directement depuis ces sites.
+        </p>
+
+        {{ form(alreadyRegisteredForm, {'attr' : {'novalidate' : 'novalidate'}}) }}
+            <div>
+                {{ form_row(alreadyRegisteredForm.whereApartmentIsAlreadyRegistered) }}
+
+            </div>
+
+            <button type="submit">Continuer</button>
+        {{ form_end(alreadyRegisteredForm) }}
+    </div>
+{% endblock %}
