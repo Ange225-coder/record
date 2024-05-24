@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription d'hébergement sur Record{% endblock %}
+
+{% block body %}
+    <section>
+        <h1>Où se situe l'établissement que vous inscrivez ?</h1>
+
+        <p>
+            Nous enverrons peut-être un courrier à cette adresse pour confirmer l'emplacement de votre hébergement. Assurez-vous donc qu'elle est correct, car il sera difficile de la corriger plus tard.
+        </p>
+
+        {{ form_start(apartmentPlaceForm, {'attr' : {'novalidate' : 'novalidate'}}) }}
+            <div style="display: grid; grid-template-columns: 1fr; gap: 15px;">
+                <div>
+                    {{ form_errors(apartmentPlaceForm.country) }}
+                    {{ form_label(apartmentPlaceForm.country) }}<br >
+                    {{ form_widget(apartmentPlaceForm.country) }}
+                </div>
+
+                <div>
+                    {{ form_errors(apartmentPlaceForm.address) }}
+                    {{ form_label(apartmentPlaceForm.address) }}<br >
+                    {{ form_widget(apartmentPlaceForm.address) }}
+                </div>
+
+                <div>
+                    {{ form_errors(apartmentPlaceForm.postalCode) }}
+                    {{ form_label(apartmentPlaceForm.postalCode) }}<br >
+                    {{ form_widget(apartmentPlaceForm.postalCode) }}
+                </div>
+
+
+                <div>
+                    {{ form_errors(apartmentPlaceForm.town) }}
+                    {{ form_label(apartmentPlaceForm.town) }}<br >
+                    {{ form_widget(apartmentPlaceForm.town) }}
+                </div>
+
+                <button type="submit">Continuer</button>
+            </div>
+        {{ form_end(apartmentPlaceForm) }}
+    </section>
+{% endblock %}

@@ -1,12 +1,12 @@
 <?php
 
-    namespace App\Forms\Types\Partners\Housing\Adding\Apartments;
+    namespace App\Forms\Types\Partners\Housing\Adding\Apartments\GeneralInfos;
 
+    use App\Forms\Fields\Partners\Housing\Adding\Apartments\GeneralInfos\ApartmentAlreadyRegisteredFields;
     use Symfony\Component\Form\AbstractType;
     use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
     use Symfony\Component\Form\FormBuilderInterface;
     use Symfony\Component\OptionsResolver\OptionsResolver;
-    use App\Forms\Fields\Partners\Housing\Adding\Apartments\ApartmentAlreadyRegisteredFields;
 
     class ApartmentAlreadyRegisteredTypes extends AbstractType
     {
@@ -18,7 +18,7 @@
                         'Airbnb' => 'Airbnb',
                         'TripAdvisor' => 'TripAdvisor',
                         'Vrbo' => 'Vrbo',
-                        'Other' => 'autre',
+                        'Autre' => 'autre',
                         'Mon hébergement n\'est inscrit sur aucun autre site internet' => 'Nothing'
                     ],
                     'expanded' => true,

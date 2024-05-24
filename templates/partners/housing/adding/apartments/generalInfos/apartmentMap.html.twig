@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription d'hébergement sur Record.com{% endblock %}
+
+{% block body %}
+    <h1>Épinglez l'emplacement de votre hébergement</h1>
+
+    {#
+        <ul>
+            <li>{{ country }}</li>
+            <li>{{ address }}</li>
+            <li>{{ postalCode }}</li>
+            <li>{{ town }}</li>
+        </ul>
+    #}
+
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3197.8751064762914!2d-4.008987764624385!3d5.3477193928010465!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xfc1eb0cd5789993%3A0xb85e743d78f62026!2s8XWR%2BQJP%2C%20Abidjan!5e0!3m2!1sfr!2sci!4v1716543899447!5m2!1sfr!2sci" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+
+    <form method="POST" action="{{ path('save_apartment') }}">
+        <button type="submit">Continuer</button>
+    </form>
+
+{% endblock %}

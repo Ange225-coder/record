@@ -1,10 +1,10 @@
 <?php
 
-    namespace App\Forms\Types\Partners\Housing\Adding\Apartments;
+    namespace App\Forms\Types\Partners\Housing\Adding\Apartments\GeneralInfos;
 
+    use App\Forms\Fields\Partners\Housing\Adding\Apartments\GeneralInfos\NumberOfApartmentsFields;
     use Symfony\Component\Form\AbstractType;
     use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-    use App\Forms\Fields\Partners\Housing\Adding\Apartments\NumberOfApartmentsFields;
     use Symfony\Component\Form\FormBuilderInterface;
     use Symfony\Component\OptionsResolver\OptionsResolver;
 

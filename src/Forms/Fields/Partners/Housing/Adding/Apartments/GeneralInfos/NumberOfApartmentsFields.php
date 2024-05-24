@@ -1,6 +1,6 @@
 <?php
 
-    namespace App\Forms\Fields\Partners\Housing\Adding\Apartments;
+    namespace App\Forms\Fields\Partners\Housing\Adding\Apartments\GeneralInfos;
 
     use Symfony\Component\Validator\Constraints as Assert;
 

@@ -16,8 +16,8 @@
         #[ORM\Column(type: 'string', length: 55, nullable: true)]
         private ?string $housingChoice;
 
-        #[ORM\Column(type: 'string', length: 55, nullable: true)]
-        private ?string $housingAlreadyRegistered;
+        #[ORM\Column(type: 'json', length: 55, nullable: true)]
+        private ?array $housingAlreadyRegistered = [];
 
         #[ORM\Column(type: 'string', length: 55, nullable: true)]
         private ?string $housingName;
@@ -49,7 +49,7 @@
             $this->housingChoice = $housingChoice;
         }
 
-        public function setHousingAlreadyRegistered(string $housingAlreadyRegistered): void
+        public function setHousingAlreadyRegistered(?array $housingAlreadyRegistered): void
         {
             $this->housingAlreadyRegistered = $housingAlreadyRegistered;
         }
@@ -96,7 +96,7 @@
             return $this->housingChoice;
         }
 
-        public function getHousingAlreadyRegistered(): string
+        public function getHousingAlreadyRegistered(): ?array
         {
             return $this->housingAlreadyRegistered;
         }

@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription d'hébergement sur Record.com{% endblock %}
+
+{% block body %}
+    <section>
+        <div>
+            <p>Informations générales</p>
+        </div>
+
+        <hr >
+
+        <div>
+            <h1>Quel est le nom de votre hébergement</h1>
+
+            {{ form_start(apartmentNameForm, {'attr' : {'novalidate' : 'novalidate'}}) }}
+                <div>
+                    {{ form_label(apartmentNameForm.apartmentName) }}<br >
+                    {{ form_errors(apartmentNameForm.apartmentName) }}
+                    {{ form_widget(apartmentNameForm.apartmentName) }}
+                </div>
+
+                <button type="submit">Continuer</button>
+            {{ form_end(apartmentNameForm) }}
+        </div>
+    </section>
+{% endblock %}

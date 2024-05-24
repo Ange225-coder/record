@@ -10,10 +10,10 @@
             Si votre hébergement est enregistré sur Airbnb ou Vrbo, vous pouvez l'inscrire plus vite sur Record.com en important vos informations directement depuis ces sites.
         </p>
 
-        {{ form(alreadyRegisteredForm, {'attr' : {'novalidate' : 'novalidate'}}) }}
+        {{ form_start(alreadyRegisteredForm, {'attr' : {'novalidate' : 'novalidate'}}) }}
             <div>
-                {{ form_row(alreadyRegisteredForm.whereApartmentIsAlreadyRegistered) }}
-
+                {{ form_errors(alreadyRegisteredForm.whereApartmentIsAlreadyRegistered) }}
+                {{ form_widget(alreadyRegisteredForm.whereApartmentIsAlreadyRegistered) }}
             </div>
 
             <button type="submit">Continuer</button>

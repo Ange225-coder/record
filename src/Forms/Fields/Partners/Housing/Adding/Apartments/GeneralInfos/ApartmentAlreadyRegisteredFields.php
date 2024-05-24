@@ -1,21 +1,21 @@
 <?php
 
-    namespace App\Forms\Fields\Partners\Housing\Adding\Apartments;
+    namespace App\Forms\Fields\Partners\Housing\Adding\Apartments\GeneralInfos;
 
     use Symfony\Component\Validator\Constraints as Assert;
 
     class ApartmentAlreadyRegisteredFields
     {
         #[Assert\NotBlank(message: 'Veuillez sélectionner un choix')]
-        private string $whereApartmentIsAlreadyRegistered;
+        private array $whereApartmentIsAlreadyRegistered;
 
 
-        public function setWhereApartmentIsAlreadyRegistered(string $whereApartmentIsAlreadyRegistered): void
+        public function setWhereApartmentIsAlreadyRegistered(array $whereApartmentIsAlreadyRegistered): void
         {
             $this->whereApartmentIsAlreadyRegistered = $whereApartmentIsAlreadyRegistered;
         }
 
-        public function getWhereApartmentIsAlreadyRegistered(): string
+        public function getWhereApartmentIsAlreadyRegistered(): array
         {
             return $this->whereApartmentIsAlreadyRegistered;
         }

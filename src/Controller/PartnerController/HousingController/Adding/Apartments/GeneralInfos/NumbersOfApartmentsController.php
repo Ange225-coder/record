@@ -1,14 +1,14 @@
 <?php
 
-    namespace App\Controller\PartnerController\HousingController\Adding\Apartments;
+    namespace App\Controller\PartnerController\HousingController\Adding\Apartments\GeneralInfos;
 
+    use App\Forms\Fields\Partners\Housing\Adding\Apartments\GeneralInfos\NumberOfApartmentsFields;
+    use App\Forms\Types\Partners\Housing\Adding\Apartments\GeneralInfos\NumberOfApartmentsTypes;
     use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-    use Symfony\Component\HttpFoundation\Response;
     use Symfony\Component\HttpFoundation\Request;
-    use Symfony\Component\Routing\Annotation\Route;
-    use App\Forms\Fields\Partners\Housing\Adding\Apartments\NumberOfApartmentsFields;
-    use App\Forms\Types\Partners\Housing\Adding\Apartments\NumberOfApartmentsTypes;
+    use Symfony\Component\HttpFoundation\Response;
     use Symfony\Component\HttpFoundation\Session\Session;
+    use Symfony\Component\Routing\Annotation\Route;
 
     class NumbersOfApartmentsController extends AbstractController
     {
@@ -32,7 +32,7 @@
                 //if($numberOfApartmentsFields->getNumberOfApartment() === 'plu')
             }
 
-            return $this->render('partners/housing/adding/apartments/numberOfApartment.html.twig', [
+            return $this->render('partners/housing/adding/apartments/generalInfos/numberOfApartment.html.twig', [
                 'apartmentChoiceForm' => $numberOfApartmentsTypes->createView(),
             ]);
         }
