@@ -4,4 +4,48 @@
 
 {% block body %}
     <h1>Informations sur l'établissement</h1>
+
+    {{ form_start(apartmentInfoForm, {'attr' : {'novalidate' : 'novalidate'}}) }}
+        <div style="display: grid; grid-template-columns: 1fr; gap: 25px">
+            <div>
+                {{ form_label(apartmentInfoForm.whereToSleep) }}<br >
+                {{ form_widget(apartmentInfoForm.whereToSleep) }}
+                {{ form_errors(apartmentInfoForm.whereToSleep) }}
+            </div>
+
+            <div>
+                {{ form_label(apartmentInfoForm.peopleCanStay) }}<br >
+                {{ form_widget(apartmentInfoForm.peopleCanStay) }}
+                {{ form_errors(apartmentInfoForm.peopleCanStay) }}
+            </div>
+
+            <div>
+                {{ form_label(apartmentInfoForm.numberOfBathroom) }}<br >
+                {{ form_widget(apartmentInfoForm.numberOfBathroom) }}
+                {{ form_errors(apartmentInfoForm.numberOfBathroom) }}
+            </div>
+
+            <div>
+                {{ form_label(apartmentInfoForm.kidsIsAccept) }}<br >
+                {{ form_widget(apartmentInfoForm.kidsIsAccept) }}
+                {{ form_errors(apartmentInfoForm.kidsIsAccept) }}
+            </div>
+
+            <div>
+                {{ form_label(apartmentInfoForm.babyBed) }}<br >
+                {{ form_widget(apartmentInfoForm.babyBed) }}
+                {{ form_errors(apartmentInfoForm.babyBed) }}
+            </div>
+
+            <div>
+                {{ form_label(apartmentInfoForm.housingArea) }}<br >
+                {{ form_widget(apartmentInfoForm.housingArea) }}
+                {{ form_errors(apartmentInfoForm.housingArea) }}
+            </div>
+
+            <div>
+                <button type="submit">Continuer</button>
+            </div>
+        </div>
+    {{ form_end(apartmentInfoForm) }}
 {% endblock %}

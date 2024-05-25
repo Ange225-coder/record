@@ -2,6 +2,8 @@
 
     namespace App\Entity\Tables\Housing;
 
+    use Doctrine\Common\Collections\Collection;
+    use Doctrine\Common\Collections\ArrayCollection;
     use Doctrine\ORM\Mapping as ORM;
 
     #[ORM\Entity]
@@ -36,6 +38,14 @@
 
         #[ORM\Column(type: 'string', length: 55, nullable: true)]
         private ?string $partner;
+
+        #[ORM\OneToMany(targetEntity: HousingConfigurations::class, mappedBy: 'housingGeneralInfo')]
+        private Collection $configurations;
+
+        public function __construct()
+        {
+            $this->configurations = new ArrayCollection();
+        }
 
 
         //setters
@@ -84,6 +94,23 @@
             $this->partner = $partner;
         }
 
+        public function addConfiguration(HousingConfigurations $configurations): void
+        {
+            if(!$this->configurations->contains($configurations)) {
+                $this->configurations->add($configurations);
+                $configurations->setHousingGeneralInfo($this);
+            }
+        }
+
+        public function removeConfiguration(HousingConfigurations $configurations): void
+        {
+            if($this->configurations->removeElement($configurations)) {
+                if($configurations->getHousingGeneralInfo() === $this) {
+                    $configurations->setHousingGeneralInfo(null);
+                }
+            }
+        }
+
 
         //getters
         public function getHousingId(): int
@@ -129,5 +156,10 @@
         public function getPartner(): string
         {
             return $this->partner;
+        }
+
+        public function getConfigurations(): Collection
+        {
+            return $this->configurations;
         }
     }
