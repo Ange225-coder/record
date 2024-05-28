@@ -2,6 +2,7 @@
 
     namespace App\Controller\PartnerController\HousingController\Adding\Apartments\GeneralInfos;
 
+    use App\Entity\Tables\Housing\HousingConfigurations;
     use App\Entity\Tables\Housing\HousingGeneralInfo;
     use Doctrine\ORM\EntityManagerInterface;
     use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -47,6 +48,6 @@
             $entityManager->persist($apartmentInfo);
             $entityManager->flush();
 
-            return $this->redirectToRoute('apartment_info');
+            return $this->redirectToRoute('apartment_info', ['housing_id' => $apartmentInfo->getHousingId()]);
         }
     }

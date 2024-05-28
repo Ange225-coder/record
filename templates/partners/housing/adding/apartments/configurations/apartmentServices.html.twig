@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription d'hébergement sur Record.com{% endblock %}
+
+{% block body %}
+{#
+    how get session which contain array in his 2nd option
+    <div>
+        {% for item in equipment.generalEquipment %}
+            <p>{{ item }}</p>
+        {% endfor %}
+    </div>
+
+    <div>
+        {% for item_kitchen in equipment.kitchenEquipment %}
+            <p>
+                {{ item_kitchen }}
+            </p>
+        {% endfor %}
+    </div>
+#}
+
+    <section>
+        <h1>Services proposés par votre hébergement</h1>
+
+        {{ form_start(apartmentServicesForm, {'attr' : {'novalidate' : 'novalidate'}}) }}
+            <div>
+                <div>
+                    <h2>Petit - déjeuner</h2>
+
+                    {{ form_errors(apartmentServicesForm.lunch) }}
+                    {{ form_label(apartmentServicesForm.lunch) }}
+                    {{ form_widget(apartmentServicesForm.lunch) }}
+                </div>
+
+                <div>
+                    <h2>Parking</h2>
+
+                    {{ form_errors(apartmentServicesForm.carPark) }}
+                    {{ form_label(apartmentServicesForm.carPark) }}
+                    {{ form_widget(apartmentServicesForm.carPark) }}
+                </div>
+
+                <button type="submit">Continuer</button>
+            </div>
+
+        {{ form_end(apartmentServicesForm) }}
+    </section>
+{% endblock %}

@@ -3,6 +3,25 @@
 {% block title %}Inscription d'hébergement sur Record.com{% endblock %}
 
 {% block body %}
+    <div>
+        <details>
+            <summary>
+                <strong>{{ apartment_name }}</strong><br >
+                {{ apartment_address }}, {{ apartment_town }}
+            </summary>
+
+            <div>
+                <p>
+                    <a href="#">Modifier le nom de l'hébergement</a>
+                </p>
+
+                <p>
+                    <a href="#">Modifier l'adresse de l'hébergement</a>
+                </p>
+            </div>
+        </details>
+    </div>
+
     <h1>Informations sur l'établissement</h1>
 
     {{ form_start(apartmentInfoForm, {'attr' : {'novalidate' : 'novalidate'}}) }}

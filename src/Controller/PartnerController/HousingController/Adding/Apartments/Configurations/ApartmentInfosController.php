@@ -2,6 +2,7 @@
 
     namespace App\Controller\PartnerController\HousingController\Adding\Apartments\Configurations;
 
+    use App\Entity\Tables\Housing\HousingGeneralInfo;
     use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
     use Symfony\Component\Form\FormError;
     use Symfony\Component\HttpFoundation\Response;
@@ -10,12 +11,20 @@
     use App\Forms\Types\Partners\Housing\Adding\Apartments\Configurations\ApartmentInfoTypes;
     use Symfony\Component\HttpFoundation\Session\Session;
     use Symfony\Component\HttpFoundation\Request;
+    use Doctrine\ORM\EntityManagerInterface;
 
     class ApartmentInfosController extends AbstractController
     {
-        #[Route(path: '/partner/add/apartment-info', name: 'apartment_info')]
-        public function apartmentInfos(Request $request, Session $session): Response
+        #[Route(path: '/partner/add/apartment-info/{housing_id}', name: 'apartment_info')]
+        public function apartmentInfos(int $housing_id, Request $request, Session $session, EntityManagerInterface $entityManager): Response
         {
+            //get infos from this current apartment
+            $currentApartment = $entityManager->getRepository(HousingGeneralInfo::class)->find($housing_id);
+            $apartmentName = $currentApartment->getHousingName();
+            $apartmentAddress = $currentApartment->getHousingAddress();
+            $apartmentTown = $currentApartment->getHousingTown();
+
+
             $apartmentInfoFields = new ApartmentInfoFields();
             $apartmentInfoFields->setHousingArea(null);
 
@@ -37,11 +46,15 @@
                     $apartmentInfoTypes->get('housingArea')->addError(new FormError('Veuillez indiquer la superficie de l\'hébergement'));
                 }
 
-                return $this->redirectToRoute('apartment_equipments');
+                return $this->redirectToRoute('apartment_equipments', ['housing_id' => $housing_id]);
             }
 
             return $this->render('/partners/housing/adding/apartments/configurations/apartmentInfo.html.twig', [
                 'apartmentInfoForm' => $apartmentInfoTypes->createView(),
+                'housing_id' => $housing_id,
+                'apartment_name' => $apartmentName,
+                'apartment_address' => $apartmentAddress,
+                'apartment_town' => $apartmentTown,
             ]);
         }
     }

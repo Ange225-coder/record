@@ -5,5 +5,55 @@
 {% block body %}
     <section>
         <h1>Quels équipements proposez-vous</h1>
+
+        {{ form_start(equipmentForm) }}
+            <div>
+                <div>
+                    <h2>Général</h2>
+                    {{ form_widget(equipmentForm.generalEquipments) }}
+                </div>
+
+                <div>
+                    <h2>Cuisine et entretien</h2>
+
+                    {{ form_widget(equipmentForm.kitchenAndCleaning) }}
+                </div>
+
+                <div>
+                    <h2>Entertainment</h2>
+
+                    {{ form_widget(equipmentForm.entertainment) }}
+                </div>
+
+                <div>
+                    <h2>Vue et extérieur</h2>
+
+                    {{ form_widget(equipmentForm.outdoorView) }}
+                </div>
+
+                <button type="submit" id="submit-button" disabled>Continuer</button>
+            </div>
+        {{ form_end(equipmentForm) }}
     </section>
+{% endblock %}
+
+
+{% block javascripts %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const submitButton = document.getElementById('submit-button');
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+
+            function updateButtonState() {
+                const anyChecked = Array.from(checkboxes).some(checkboxes => checkboxes.checked);
+                submitButton.disabled = !anyChecked;
+            }
+
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', updateButtonState);
+            });
+
+            updateButtonState();
+        })
+    </script>
 {% endblock %}
