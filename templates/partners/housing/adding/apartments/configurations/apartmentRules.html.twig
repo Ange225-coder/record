@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription d'hébergement sur Record.com{% endblock %}
+
+{% block body %}
+    {#
+        an example of how get sessions which are typed like array
+
+        {% if languages is iterable %}
+            {% for item in languages %}
+                <p>
+                    {{ item }}
+                </p>
+            {% endfor %}
+        {% endif %}
+    #}
+
+    <h1>Règles de la maison</h1>
+
+    {{ form_start(apartmentRulesForm, {'attr' : {'novalidate' : 'novalidate'}}) }}
+        <div>
+            <div>
+                {{ form_label(apartmentRulesForm.smoker) }}
+                {{ form_widget(apartmentRulesForm.smoker) }}
+                {{ form_errors(apartmentRulesForm.smoker) }}
+            </div>
+
+            <div>
+                {{ form_label(apartmentRulesForm.animalIsAccept) }}
+                {{ form_widget(apartmentRulesForm.animalIsAccept) }}
+                {{ form_errors(apartmentRulesForm.animalIsAccept) }}
+            </div>
+
+            <div>
+                {{ form_label(apartmentRulesForm.partyIsAccept) }}
+                {{ form_widget(apartmentRulesForm.partyIsAccept) }}
+                {{ form_errors(apartmentRulesForm.partyIsAccept) }}
+            </div>
+
+            <button type="submit">Continuer</button>
+        </div>
+    {{ form_end(apartmentRulesForm) }}
+{% endblock %}

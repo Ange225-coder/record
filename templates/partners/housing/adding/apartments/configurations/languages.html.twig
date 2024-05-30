@@ -5,5 +5,15 @@
 {% block body %}
     <section>
         <h1>Quelles langues parlez-vous ?</h1>
+
+        {{ form_start(languagesForm) }}
+
+            <div>
+                {{ form_label(languagesForm.languages) }}
+                {{ form_widget(languagesForm.languages) }}
+            </div>
+
+            <button type="submit">Continuer</button>
+        {{ form_end(languagesForm) }}
     </section>
 {% endblock %}

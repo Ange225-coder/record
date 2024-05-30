@@ -1,0 +1,106 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription d'hébergement sur Record.com{% endblock %}
+
+{% block body %}
+    <section>
+        <h1>Profil d'hôte</h1>
+
+        {{ form_start(apartmentProfilForm) }}
+            <div> {# forms for apartment profil #}
+                <div>
+                    {# {{ form_label(apartmentProfilForm.apartmentProfil) }} #}
+                    {{ form_widget(apartmentProfilForm.apartmentProfil) }}
+                </div>
+
+                {# formulaire d'hébergement caché #}
+                <div id="hebergementForm" style="display: none;">
+                    <h2>Formulaire d'hébergement</h2>
+                    <label for="apartment_profil">
+                        <textarea name="apartment_profil" id="apartment_profil" placeholder="En quoi votre hébergement est-il unique ?"></textarea>
+                    </label>
+                </div>
+            </div>
+
+
+            <div> {# forms for area profil #}
+                <div>
+                    {# {{ form_label(apartmentProfilForm.areaProfil) }} #}
+                    {{ form_widget(apartmentProfilForm.areaProfil) }}
+                </div>
+
+                {# formulaire de quartier caché #}
+                <div id="areaForm" style="display: none;">
+                    <h2>Formulaire de quartier</h2>
+                    <label for="area_profil">
+                        <textarea name="area_details" id="area_profil" placeholder="A quoi ressemble les environs ?"></textarea>
+                    </label>
+                </div>
+            </div>
+
+
+            <div> {# form for no comments #}
+                <div>
+                    {#{{ form_label(apartmentProfilForm.noComment) }}#}
+                    {{ form_widget(apartmentProfilForm.noComment) }}
+                </div>
+            </div>
+
+
+            <button type="submit">Continuer</button>
+        {{ form_end(apartmentProfilForm) }}
+    </section>
+{% endblock %}
+
+
+
+{% block javascripts %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const hebergementCheckbox = document.querySelector('input[value="hebergement"]');
+            const areaCheckbox = document.querySelector('input[value="quartier"]');
+            const aucunCheckbox = document.querySelector('input[value="0"]');
+
+            const hebergementForm = document.getElementById('hebergementForm');
+            const areaForm = document.getElementById('areaForm');
+
+            if (hebergementCheckbox && areaCheckbox && aucunCheckbox) {
+                function updateFormDisplay() {
+                    if (hebergementCheckbox.checked) {
+                        hebergementForm.style.display = 'block';
+                    } else {
+                        hebergementForm.style.display = 'none';
+                    }
+
+                    if (areaCheckbox.checked) {
+                        areaForm.style.display = 'block';
+                    } else {
+                        areaForm.style.display = 'none';
+                    }
+
+                    if (aucunCheckbox.checked) {
+                        hebergementCheckbox.checked = false;
+                        areaCheckbox.checked = false;
+                        hebergementForm.style.display = 'none';
+                        areaForm.style.display = 'none';
+                    }
+                }
+
+                hebergementCheckbox.addEventListener('change', function () {
+                    aucunCheckbox.checked = false;
+                    updateFormDisplay();
+                });
+
+                areaCheckbox.addEventListener('change', function () {
+                    aucunCheckbox.checked = false;
+                    updateFormDisplay();
+                });
+
+                aucunCheckbox.addEventListener('change', updateFormDisplay);
+
+                // Initial call to set up the form display correctly
+                updateFormDisplay();
+            }
+        });
+    </script>
+{% endblock %}

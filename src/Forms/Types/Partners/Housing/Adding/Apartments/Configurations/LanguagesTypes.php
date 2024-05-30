@@ -1,0 +1,36 @@
+<?php
+
+    namespace App\Forms\Types\Partners\Housing\Adding\Apartments\Configurations;
+
+    use Symfony\Component\Form\AbstractType;
+    use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+    use App\Forms\Fields\Partners\Housing\Adding\Apartments\Configurations\LanguagesFields;
+    use Symfony\Component\Form\FormBuilderInterface;
+    use Symfony\Component\OptionsResolver\OptionsResolver;
+
+    class LanguagesTypes extends AbstractType
+    {
+        public function buildForm(FormBuilderInterface $builder, array $options): void
+        {
+            $builder->add('languages', ChoiceType::class, [
+                'label' => 'Sélectionnez des langues',
+                'choices' => [
+                    'Anglais' => 'anglais',
+                    'Espagnol' => 'espagnol',
+                    'Français' => 'français',
+                    'Italien' => 'italien',
+                    'Russe' => 'russe',
+                ],
+                'expanded' => true,
+                'multiple' => true,
+            ]);
+        }
+
+
+        public function configureOptions(OptionsResolver $resolver): void
+        {
+            $resolver->setDefaults([
+                'data_class' => LanguagesFields::class,
+            ]);
+        }
+    }
