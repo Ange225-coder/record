@@ -34,6 +34,17 @@
                     'choices' => $housing,
                     'expanded' => true,
                     'multiple' => true,
+                    'mapped' => false,
+                ])
+
+                ->add('apartmentDetails', TextareaType::class, [
+                    'label' => 'A propos de l\'hébergement',
+                    'required' => false,
+                    'attr' => [
+                        'class' => 'apartment-details',
+                        'style' => 'display: none;',
+                        'placeholder' => 'En quoi votre hébergement est-il unique ?',
+                    ]
                 ])
 
                 ->add('areaProfil', ChoiceType::class, [
@@ -41,6 +52,17 @@
                     'choices' => $area,
                     'expanded' => true,
                     'multiple' => true,
+                    'mapped' => false,
+                ])
+
+                ->add('areaDetails', TextareaType::class, [
+                    'label' => 'A propos du quartier',
+                    'required' => false,
+                    'attr' => [
+                        'class' => 'area-details',
+                        'style' => 'display: none;',
+                        'placeholder' => 'A quoi ressemble les environs ?',
+                    ]
                 ])
 
                 ->add('noComment', ChoiceType::class, [

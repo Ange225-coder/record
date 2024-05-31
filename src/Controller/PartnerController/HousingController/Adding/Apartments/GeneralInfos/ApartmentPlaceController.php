@@ -9,10 +9,12 @@
     use Symfony\Component\HttpFoundation\Response;
     use Symfony\Component\HttpFoundation\Session\Session;
     use Symfony\Component\Routing\Annotation\Route;
+    use Symfony\Component\Security\Http\Attribute\IsGranted;
 
     class ApartmentPlaceController extends AbstractController
     {
         #[Route(path: '/partner/add/apartment-place', name: 'apartment_place')]
+        #[IsGranted('ROLE_PARTNER')]
         public function apartmentPlace(Request $request, Session $session): Response
         {
             $apartmentPlaceFields = new ApartmentPlaceFields();

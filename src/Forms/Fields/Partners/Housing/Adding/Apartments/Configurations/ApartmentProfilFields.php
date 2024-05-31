@@ -4,9 +4,15 @@
 
     class ApartmentProfilFields
     {
+        //datas of these fields won't go into the database
         private ?string $apartmentProfil;
         private ?string $areaProfil;
-        private null $noComment;
+        private ?array $noComment;
+
+        //fields for textarea
+        //datas of these fields will go into the database
+        private ?string $apartmentDetails = null;
+        private ?string $areaDetails = null;
 
         //setters
         public function setApartmentProfil(?string $apartmentProfil): void
@@ -19,9 +25,19 @@
             $this->areaProfil = $areaProfil;
         }
 
-        public function setNoComment(null $noComment): void
+        public function setNoComment(?array $noComment): void
         {
             $this->noComment = $noComment;
+        }
+
+        public function setApartmentDetails(?string $apartmentDetails): void
+        {
+            $this->apartmentDetails = $apartmentDetails;
+        }
+
+        public function setAreaDetails(?string $areaDetails): void
+        {
+            $this->areaDetails = $areaDetails;
         }
 
 
@@ -36,8 +52,18 @@
             return $this->areaProfil;
         }
 
-        public function getNoComment(): null
+        public function getNoComment(): ?array
         {
             return $this->noComment;
+        }
+
+        public function getApartmentDetails(): ?string
+        {
+            return $this->apartmentDetails;
+        }
+
+        public function getAreaDetails(): ?string
+        {
+            return $this->areaDetails;
         }
     }

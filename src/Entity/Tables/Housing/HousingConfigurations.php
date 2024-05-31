@@ -31,8 +31,8 @@
         #[ORM\Column(type: 'integer', nullable: true)]
         private ?int $housingArea;
 
-        #[ORM\Column(type: 'string', length: 128, nullable: true)]
-        private ?string $homeEquipment;
+        #[ORM\Column(type: 'json', length: 128, nullable: true)]
+        private ?array $homeEquipment = [];
 
         #[ORM\Column(type: 'string', length: 55, nullable: true)]
         private ?string $lunch;
@@ -40,8 +40,8 @@
         #[ORM\Column(type: 'string', length: 55, nullable: true)]
         private ?string $carPark;
 
-        #[ORM\Column(type: 'string', length: 55, nullable: true)]
-        private ?string $myLanguage;
+        #[ORM\Column(type: 'json', length: 55, nullable: true)]
+        private ?array $myLanguage = [];
 
         #[ORM\Column(type: 'string', length: 55, nullable: true)]
         private ?string $smoker;
@@ -52,8 +52,11 @@
         #[ORM\Column(type: 'string', length: 55, nullable: true)]
         private ?string $partyIsAccept;
 
-        #[ORM\Column(type: 'string', length: 55, nullable: true)]
-        private ?string $profil;
+        #[ORM\Column(type: 'text', nullable: true)]
+        private ?string $apartmentProfil;
+
+        #[ORM\Column(type: 'text', nullable: true)]
+        private ?string $areaProfil;
 
         #[ORM\ManyToOne(targetEntity: HousingGeneralInfo::class, inversedBy: 'configurations')]
         #[ORM\JoinColumn(name: 'housing_id', referencedColumnName: 'housing_id', nullable: false)]
@@ -96,7 +99,7 @@
             $this->housingArea = $housingArea;
         }
 
-        public function setHomeEquipment(?string $homeEquipment): void
+        public function setHomeEquipment(?array $homeEquipment): void
         {
             $this->homeEquipment = $homeEquipment;
         }
@@ -111,7 +114,7 @@
             $this->carPark = $carPark;
         }
 
-        public function setMyLanguage(?string $myLanguage): void
+        public function setMyLanguage(?array $myLanguage): void
         {
             $this->myLanguage = $myLanguage;
         }
@@ -131,9 +134,14 @@
             $this->partyIsAccept = $partyIsAccept;
         }
 
-        public function setProfil(?string $profil): void
+        public function setApartmentProfil(?string $apartmentProfil): void
         {
-            $this->profil = $profil;
+            $this->apartmentProfil = $apartmentProfil;
+        }
+
+        public function setAreaProfil(?string $areaProfil): void
+        {
+            $this->areaProfil = $areaProfil;
         }
 
         public function setHousingGeneralInfo(?HousingGeneralInfo $housingGeneralInfo): void
@@ -180,7 +188,7 @@
             return $this->housingArea;
         }
 
-        public function getHomeEquipment(): ?string
+        public function getHomeEquipment(): ?array
         {
             return $this->homeEquipment;
         }
@@ -195,7 +203,7 @@
             return $this->carPark;
         }
 
-        public function getMyLanguage(): ?string
+        public function getMyLanguage(): ?array
         {
             return $this->myLanguage;
         }
@@ -215,9 +223,14 @@
             return $this->partyIsAccept;
         }
 
-        public function getProfil(): ?string
+        public function getApartmentProfil(): ?string
         {
-            return $this->profil;
+            return $this->apartmentProfil;
+        }
+
+        public function getAreaProfil(): ?string
+        {
+            return $this->areaProfil;
         }
 
         public function getHousingGeneralInfo(): ?HousingGeneralInfo

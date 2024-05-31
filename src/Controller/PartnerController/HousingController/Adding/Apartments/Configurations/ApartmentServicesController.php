@@ -28,8 +28,8 @@
 
             if($apartmentServicesTypes->isSubmitted() && $apartmentServicesTypes->isValid()) {
 
-                $session->set('luch', $apartmentServicesFields->getLunch());
-                $session->set('carPark', $apartmentServicesFields->getCarPark());
+                $session->set('lunch', $apartmentServicesFields->getLunch());
+                $session->set('car_park', $apartmentServicesFields->getCarPark());
 
                 return $this->redirectToRoute('languages', ['housing_id' => $housing_id]);
             }

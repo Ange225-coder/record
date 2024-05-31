@@ -13,13 +13,17 @@
                     {{ form_widget(apartmentProfilForm.apartmentProfil) }}
                 </div>
 
+                <div>
+                    {{ form_widget(apartmentProfilForm.apartmentDetails) }}
+                </div>
+
                 {# formulaire d'hébergement caché #}
-                <div id="hebergementForm" style="display: none;">
+                {#  <div id="hebergementForm" style="display: none;">
                     <h2>Formulaire d'hébergement</h2>
                     <label for="apartment_profil">
                         <textarea name="apartment_profil" id="apartment_profil" placeholder="En quoi votre hébergement est-il unique ?"></textarea>
                     </label>
-                </div>
+                </div>#}
             </div>
 
 
@@ -29,13 +33,17 @@
                     {{ form_widget(apartmentProfilForm.areaProfil) }}
                 </div>
 
+                <div>
+                    {{ form_widget(apartmentProfilForm.areaDetails) }}
+                </div>
+
                 {# formulaire de quartier caché #}
-                <div id="areaForm" style="display: none;">
+                {#  <div id="areaForm" style="display: none;">
                     <h2>Formulaire de quartier</h2>
                     <label for="area_profil">
                         <textarea name="area_details" id="area_profil" placeholder="A quoi ressemble les environs ?"></textarea>
                     </label>
-                </div>
+                </div>#}
             </div>
 
 
@@ -57,50 +65,65 @@
 {% block javascripts %}
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const hebergementCheckbox = document.querySelector('input[value="hebergement"]');
-            const areaCheckbox = document.querySelector('input[value="quartier"]');
-            const aucunCheckbox = document.querySelector('input[value="0"]');
+            const apartmentCheckboxes = document.querySelectorAll('input[name="apartment_profil_types[apartmentProfil][]"]');
+            const areaCheckboxes = document.querySelectorAll('input[name="apartment_profil_types[areaProfil][]"]');
+            const noCommentCheckbox = document.querySelector('input[name="apartment_profil_types[noComment][]"]');
+            const apartmentDetails = document.querySelector('.apartment-details');
+            const areaDetails = document.querySelector('.area-details');
 
-            const hebergementForm = document.getElementById('hebergementForm');
-            const areaForm = document.getElementById('areaForm');
-
-            if (hebergementCheckbox && areaCheckbox && aucunCheckbox) {
-                function updateFormDisplay() {
-                    if (hebergementCheckbox.checked) {
-                        hebergementForm.style.display = 'block';
-                    } else {
-                        hebergementForm.style.display = 'none';
+            function toggleApartmentDetails() {
+                let isChecked = false;
+                apartmentCheckboxes.forEach(function(checkbox) {
+                    if (checkbox.checked) {
+                        isChecked = true;
                     }
+                });
+                apartmentDetails.style.display = isChecked ? 'block' : 'none';
 
-                    if (areaCheckbox.checked) {
-                        areaForm.style.display = 'block';
-                    } else {
-                        areaForm.style.display = 'none';
-                    }
-
-                    if (aucunCheckbox.checked) {
-                        hebergementCheckbox.checked = false;
-                        areaCheckbox.checked = false;
-                        hebergementForm.style.display = 'none';
-                        areaForm.style.display = 'none';
-                    }
+                if (isChecked && noCommentCheckbox.checked) {
+                    noCommentCheckbox.checked = false;
                 }
-
-                hebergementCheckbox.addEventListener('change', function () {
-                    aucunCheckbox.checked = false;
-                    updateFormDisplay();
-                });
-
-                areaCheckbox.addEventListener('change', function () {
-                    aucunCheckbox.checked = false;
-                    updateFormDisplay();
-                });
-
-                aucunCheckbox.addEventListener('change', updateFormDisplay);
-
-                // Initial call to set up the form display correctly
-                updateFormDisplay();
             }
+
+            function toggleAreaDetails() {
+                let isChecked = false;
+                areaCheckboxes.forEach(function(checkbox) {
+                    if (checkbox.checked) {
+                        isChecked = true;
+                    }
+                });
+                areaDetails.style.display = isChecked ? 'block' : 'none';
+
+                if (isChecked && noCommentCheckbox.checked) {
+                    noCommentCheckbox.checked = false;
+                }
+            }
+
+            function handleNoComment() {
+                if (noCommentCheckbox.checked) {
+                    apartmentCheckboxes.forEach(function(checkbox) {
+                        checkbox.checked = false;
+                    });
+                    areaCheckboxes.forEach(function(checkbox) {
+                        checkbox.checked = false;
+                    });
+                    apartmentDetails.style.display = 'none';
+                    areaDetails.style.display = 'none';
+                }
+            }
+
+            apartmentCheckboxes.forEach(function(checkbox) {
+                checkbox.addEventListener('change', toggleApartmentDetails);
+            });
+
+            areaCheckboxes.forEach(function(checkbox) {
+                checkbox.addEventListener('change', toggleAreaDetails);
+            });
+
+            noCommentCheckbox.addEventListener('change', handleNoComment);
+
+            toggleApartmentDetails();
+            toggleAreaDetails();
         });
     </script>
 {% endblock %}

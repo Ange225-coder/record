@@ -12,10 +12,10 @@
         #[Route(path: '/partner/add/apartment-pictures/{housing_id}', name: 'pictures')]
         public function pictures(Session $session): Response
         {
-            $profil = $session->get('apartment_profil');
+
 
             return $this->render('partners/housing/adding/apartments/pictures/pictures.html.twig', [
-                'profil' => $profil,
+
             ]);
         }
     }
