@@ -42,9 +42,13 @@
         #[ORM\OneToMany(targetEntity: HousingConfigurations::class, mappedBy: 'housingGeneralInfo')]
         private Collection $configurations;
 
+        #[ORM\OneToMany(targetEntity: HousingPictures::class, mappedBy: 'housingGeneralInfo')]
+        private Collection $pictures;
+
         public function __construct()
         {
             $this->configurations = new ArrayCollection();
+            $this->pictures = new ArrayCollection();
         }
 
 
@@ -111,6 +115,22 @@
             }
         }
 
+        public function addPicture(HousingPictures $pictures): void
+        {
+            if(!$this->pictures->contains($pictures)) {
+                $this->pictures->add($pictures);
+                $pictures->setHousingGeneralInfo($this);
+            }
+        }
+
+        public function removePicture(HousingPictures $pictures): void
+        {
+            if($this->pictures->removeElement($pictures)) {
+                if($pictures->getHousingGeneralInfo() === $this) {
+                    $pictures->setHousingGeneralInfo(null);
+                }
+            }
+        }
 
         //getters
         public function getHousingId(): int
@@ -161,5 +181,10 @@
         public function getConfigurations(): Collection
         {
             return $this->configurations;
+        }
+
+        public function getPictures(): Collection
+        {
+            return $this->pictures;
         }
     }
