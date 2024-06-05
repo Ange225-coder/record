@@ -17,6 +17,119 @@
     <section>
         <h1>À quoi ressemble votre hébergement ?</h1>
 
-        {{ form(apartmentPictureForm) }}
+
+        <div>
+            {{ form_start(pictureForm, {'attr' : {'novalidate' : 'novalidate'}}) }}
+
+                <div style="display: grid; grid-template-columns: 1fr; gap: 15px;">
+                    <div>
+                        {{ form_errors(pictureForm.teaserPic) }}
+                        {{ form_label(pictureForm.teaserPic) }}<br >
+                        {{ form_widget(pictureForm.teaserPic) }}
+                    </div>
+
+                    <div id="teaserPicPreview"></div>
+
+
+                    <div>
+                        {{ form_errors(pictureForm.picTwo) }}
+                        {{ form_label(pictureForm.picTwo) }}<br >
+                        {{ form_widget(pictureForm.picTwo) }}
+                    </div>
+
+                    <div id="picTwoPreview"></div>
+
+
+                    <div>
+                        {{ form_errors(pictureForm.picThree) }}
+                        {{ form_label(pictureForm.picThree) }}<br >
+                        {{ form_widget(pictureForm.picThree) }}
+                    </div>
+
+                    <div id="picThreePreview"></div>
+
+
+                    <div>
+                        {{ form_errors(pictureForm.picFor) }}
+                        {{ form_label(pictureForm.picFor) }}<br >
+                        {{ form_widget(pictureForm.picFor) }}
+                    </div>
+
+                    <div id="picForPreview"></div>
+
+
+                    <div>
+                        {{ form_errors(pictureForm.picFive) }}
+                        {{ form_label(pictureForm.picFive) }}<br >
+                        {{ form_widget(pictureForm.picFive) }}
+                    </div>
+
+                    <div id="picFivePreview"></div>
+
+
+                    <div>
+                        {{ form_errors(pictureForm.picSix) }}
+                        {{ form_label(pictureForm.picSix) }}<br >
+                        {{ form_widget(pictureForm.picSix) }}
+                    </div>
+
+                    <div id="picSixPreview"></div>
+
+                    <div>
+                        <button type="submit">Continuer</button>
+                    </div>
+                </div>
+
+
+
+            {{ form_end(pictureForm) }}
+        </div>
     </section>
 {% endblock %}
+
+
+
+
+
+
+    {% block javascripts %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            function readURL(input, previewId, altText) {
+                if (input.files && input.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        document.getElementById(previewId).innerHTML = '<img src="' + e.target.result + '" alt="' + altText + '" style="max-width: 20%; height: auto;" />';
+                    }
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+
+            document.getElementById('apartment_pictures_types_teaserPic').addEventListener('change', function() {
+                readURL(this, 'teaserPicPreview');
+            });
+
+            document.getElementById('apartment_pictures_types_picTwo').addEventListener('change', function() {
+                readURL(this, 'picTwoPreview');
+            });
+
+            document.getElementById('apartment_pictures_types_picThree').addEventListener('change', function() {
+                readURL(this, 'picThreePreview');
+            });
+
+            document.getElementById('apartment_pictures_types_picFor').addEventListener('change', function() {
+                readURL(this, 'picForPreview');
+            });
+
+            document.getElementById('apartment_pictures_types_picFive').addEventListener('change', function() {
+                readURL(this, 'picFivePreview');
+            });
+
+            document.getElementById('apartment_pictures_types_picSix').addEventListener('change', function() {
+                readURL(this, 'picSixPreview');
+            });
+        });
+    </script>
+{% endblock %}
+
+
