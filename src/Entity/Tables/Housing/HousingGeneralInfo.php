@@ -45,10 +45,14 @@
         #[ORM\OneToMany(targetEntity: HousingPictures::class, mappedBy: 'housingGeneralInfo')]
         private Collection $pictures;
 
+        #[ORM\OneToMany(targetEntity: HousingPriceAndSchedule::class, mappedBy: 'housingGeneralInfo')]
+        private Collection $priceAndSchedule;
+
         public function __construct()
         {
             $this->configurations = new ArrayCollection();
             $this->pictures = new ArrayCollection();
+            $this->priceAndSchedule = new ArrayCollection();
         }
 
 
@@ -132,6 +136,26 @@
             }
         }
 
+        public function addPriceAndSchedule(HousingPriceAndSchedule $priceAndSchedule): void
+        {
+            if(!$this->priceAndSchedule->contains($priceAndSchedule)) {
+                $this->priceAndSchedule->add($priceAndSchedule);
+                $priceAndSchedule->setHousingGeneralInfo($this);
+            }
+        }
+
+        public function removePriceAndSchedule(HousingPriceAndSchedule $priceAndSchedule): void
+        {
+            if($this->priceAndSchedule->removeElement($priceAndSchedule)) {
+                if($priceAndSchedule->getHousingGeneralInfo() === $this) {
+                    $priceAndSchedule->setHousingGeneralInfo(null);
+                }
+            }
+        }
+
+
+
+
         //getters
         public function getHousingId(): int
         {
@@ -187,4 +211,10 @@
         {
             return $this->pictures;
         }
+
+        public function getPriceAndSchedule(): Collection
+        {
+            return $this->priceAndSchedule;
+        }
+
     }

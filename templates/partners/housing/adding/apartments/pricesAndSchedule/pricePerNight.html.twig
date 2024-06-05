@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription d'hébergement sur Record.com{% endblock %}
+
+{% block body %}
+    <section>
+        <h1>Tarif par nuit</h1>
+
+        {{ form_start(pricePerNightForm) }}
+            <div>
+                {{ form_errors(pricePerNightForm.pricePerNight) }}
+                {{ form_label(pricePerNightForm.pricePerNight) }}<br >
+                {{ form_widget(pricePerNightForm.pricePerNight) }}
+            </div>
+
+            <button type="submit">Continuer</button>
+        {{ form_end(pricePerNightForm) }}
+    </section>
+{% endblock %}
+
+
+
+
+
+
+
+
+{% block javascripts %}
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const pricePerNightInput = document.getElementById('price_per_night_types_pricePerNight');
+
+            pricePerNightInput.addEventListener('input', function(e) {
+                this.value = this.value.replace(/[^0-9]/g, '');
+            });
+        });
+    </script>
+{% endblock %}

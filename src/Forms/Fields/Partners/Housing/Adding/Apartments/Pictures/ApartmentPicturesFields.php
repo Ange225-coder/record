@@ -3,119 +3,52 @@
     namespace App\Forms\Fields\Partners\Housing\Adding\Apartments\Pictures;
 
     use Symfony\Component\Validator\Constraints as Assert;
+    use Symfony\Component\HttpFoundation\File\UploadedFile;
 
     class ApartmentPicturesFields
     {
         #[Assert\NotBlank(message: 'Entrez au moins une photo d\'accroche')]
         #[Assert\File(
             maxSize: '2M',
-            mimeTypes: ["image/jpeg", "image/png", "image/jpg", /*"image/jfif"*/],
+            mimeTypes: ["image/jpeg", "image/png", "image/jpg"],
             maxSizeMessage: 'Les fichiers ne doivent pas dépasser 2 Mo',
             mimeTypesMessage: 'Les fichiers doivent être au format jpg, jpeg ou png',
         )]
-        private string $teaserPic;
+        private UploadedFile $teaserPic;
 
-        #[Assert\File(
-            maxSize: '2M',
-            mimeTypes: ["image/jpeg", "image/png", "image/jpg", /*"image/jfif"*/],
-            maxSizeMessage: 'Les fichiers ne doivent pas dépasser 2 Mo',
-            mimeTypesMessage: 'Les fichiers doivent être au format jpg, jpeg ou png',
+        #[Assert\All(
+            new Assert\File(
+                maxSize: '2M',
+                mimeTypes: ["image/jpeg", "image/png", "image/jpg", /*"image/jfif"*/],
+                maxSizeMessage: 'Les fichiers ne doivent pas dépasser 2 Mo',
+                mimeTypesMessage: 'Les fichiers doivent être au format jpg, jpeg ou png',
+            )
         )]
-        private ?string $picTwo;
-
-        #[Assert\File(
-            maxSize: '2M',
-            mimeTypes: ["image/jpeg", "image/png", "image/jpg", /*"image/jfif"*/],
-            maxSizeMessage: 'Les fichiers ne doivent pas dépasser 2 Mo',
-            mimeTypesMessage: 'Les fichiers doivent être au format jpg, jpeg ou png',
-        )]
-        private ?string $picThree;
-
-        #[Assert\File(
-            maxSize: '2M',
-            mimeTypes: ["image/jpeg", "image/png", "image/jpg", /*"image/jfif"*/],
-            maxSizeMessage: 'Les fichiers ne doivent pas dépasser 2 Mo',
-            mimeTypesMessage: 'Les fichiers doivent être au format jpg, jpeg ou png',
-        )]
-        private ?string $picFor;
-
-        #[Assert\File(
-            maxSize: '2M',
-            mimeTypes: ["image/jpeg", "image/png", "image/jpg", /*"image/jfif"*/],
-            maxSizeMessage: 'Les fichiers ne doivent pas dépasser 2 Mo',
-            mimeTypesMessage: 'Les fichiers doivent être au format jpg, jpeg ou png',
-        )]
-        private ?string $picFive;
-
-        #[Assert\File(
-            maxSize: '2M',
-            mimeTypes: ["image/jpeg", "image/png", "image/jpg", /*"image/jfif"*/],
-            maxSizeMessage: 'Les fichiers ne doivent pas dépasser 2 Mo',
-            mimeTypesMessage: 'Les fichiers doivent être au format jpg, jpeg ou png',
-        )]
-        private ?string $picSix;
+        private ?array $optionalPics;
 
 
         //setters
-        public function setTeaserPic(string $teaserPic): void
+        public function setTeaserPic(UploadedFile $teaserPic): void
         {
             $this->teaserPic = $teaserPic;
         }
 
-        public function setPicTwo(?string $picTwo): void
+        public function setOptionalPics(?array $optionalPics): void
         {
-            $this->picTwo = $picTwo;
+            $this->optionalPics = $optionalPics;
         }
 
-        public function setPicThree(?string $picThree): void
-        {
-            $this->picThree = $picThree;
-        }
-
-        public function setPicFor(?string $picFor): void
-        {
-            $this->picFor = $picFor;
-        }
-
-        public function setPicFive(?string $picFive): void
-        {
-            $this->picFive = $picFive;
-        }
-
-        public function setPicSix(?string $picSix): void
-        {
-            $this->picSix = $picSix;
-        }
 
 
         //getters
-        public function getTeaserPic(): string
+        public function getTeaserPic(): UploadedFile
         {
             return $this->teaserPic;
         }
 
-        public function getPicTwo(): ?string
+        public function getOptionalPics(): ?array
         {
-            return $this->picTwo;
+            return $this->optionalPics;
         }
 
-        public function getPicThree(): ?string
-        {
-            return $this->picThree;
-        }
-
-        public function getPicFor(): ?string
-        {
-            return $this->picFor;
-        }
-
-        public function getPicFive(): ?string
-        {
-            return $this->picFive;
-        }
-
-        public function getPicSix(): ?string
-        {
-            return $this->picSix;
-        }
     }

@@ -19,10 +19,12 @@
                     'choices' => [
                         'Chambre' => 'chambre',
                         'Salon' => 'salon',
-                        'Canapé lit' => 'canapé lit'
+                        'Canapé lit' => 'canapé lit',
                     ],
                     'expanded' => true,
-                    'multiple' => false
+                    'multiple' => false,
+                    'data' => 'chambre'
+
                 ])
 
                 ->add('peopleCanStay', IntegerType::class, [
@@ -48,7 +50,8 @@
                         'Non' => 'non'
                     ],
                     'expanded' => true,
-                    'multiple' => false
+                    'multiple' => false,
+                    'data' => 'oui'
                 ])
 
                 ->add('babyBed', ChoiceType::class, [
@@ -58,7 +61,8 @@
                         'Non' => 'non'
                     ],
                     'expanded' => true,
-                    'multiple' => false
+                    'multiple' => false,
+                    'data' => 'non'
                 ])
 
                 ->add('housingArea', IntegerType::class, [

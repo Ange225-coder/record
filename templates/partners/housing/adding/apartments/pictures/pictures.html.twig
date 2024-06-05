@@ -23,57 +23,14 @@
 
                 <div style="display: grid; grid-template-columns: 1fr; gap: 15px;">
                     <div>
-                        {{ form_errors(pictureForm.teaserPic) }}
-                        {{ form_label(pictureForm.teaserPic) }}<br >
-                        {{ form_widget(pictureForm.teaserPic) }}
+                        {{ form_row(pictureForm.teaserPic) }}
                     </div>
 
-                    <div id="teaserPicPreview"></div>
-
-
-                    <div>
-                        {{ form_errors(pictureForm.picTwo) }}
-                        {{ form_label(pictureForm.picTwo) }}<br >
-                        {{ form_widget(pictureForm.picTwo) }}
+                    <div id="optional-pics-wrapper" data-prototype="{{ form_widget(pictureForm.optionalPics.vars.prototype)|e('html_attr') }}">
+                        {{ form_label(pictureForm.optionalPics) }}
+                        {{ form_widget(pictureForm.optionalPics) }}
+                        <button type="button" id="add-optional-pic">Ajouter une image</button>
                     </div>
-
-                    <div id="picTwoPreview"></div>
-
-
-                    <div>
-                        {{ form_errors(pictureForm.picThree) }}
-                        {{ form_label(pictureForm.picThree) }}<br >
-                        {{ form_widget(pictureForm.picThree) }}
-                    </div>
-
-                    <div id="picThreePreview"></div>
-
-
-                    <div>
-                        {{ form_errors(pictureForm.picFor) }}
-                        {{ form_label(pictureForm.picFor) }}<br >
-                        {{ form_widget(pictureForm.picFor) }}
-                    </div>
-
-                    <div id="picForPreview"></div>
-
-
-                    <div>
-                        {{ form_errors(pictureForm.picFive) }}
-                        {{ form_label(pictureForm.picFive) }}<br >
-                        {{ form_widget(pictureForm.picFive) }}
-                    </div>
-
-                    <div id="picFivePreview"></div>
-
-
-                    <div>
-                        {{ form_errors(pictureForm.picSix) }}
-                        {{ form_label(pictureForm.picSix) }}<br >
-                        {{ form_widget(pictureForm.picSix) }}
-                    </div>
-
-                    <div id="picSixPreview"></div>
 
                     <div>
                         <button type="submit">Continuer</button>
@@ -95,38 +52,17 @@
     {% block javascripts %}
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            function readURL(input, previewId, altText) {
-                if (input.files && input.files[0]) {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        document.getElementById(previewId).innerHTML = '<img src="' + e.target.result + '" alt="' + altText + '" style="max-width: 20%; height: auto;" />';
-                    }
-                    reader.readAsDataURL(input.files[0]);
-                }
-            }
+            const addButton = document.getElementById('add-optional-pic');
+            const wrapper = document.getElementById('optional-pics-wrapper');
+            let index = {{ pictureForm.optionalPics|length }};
 
-            document.getElementById('apartment_pictures_types_teaserPic').addEventListener('change', function() {
-                readURL(this, 'teaserPicPreview');
-            });
-
-            document.getElementById('apartment_pictures_types_picTwo').addEventListener('change', function() {
-                readURL(this, 'picTwoPreview');
-            });
-
-            document.getElementById('apartment_pictures_types_picThree').addEventListener('change', function() {
-                readURL(this, 'picThreePreview');
-            });
-
-            document.getElementById('apartment_pictures_types_picFor').addEventListener('change', function() {
-                readURL(this, 'picForPreview');
-            });
-
-            document.getElementById('apartment_pictures_types_picFive').addEventListener('change', function() {
-                readURL(this, 'picFivePreview');
-            });
-
-            document.getElementById('apartment_pictures_types_picSix').addEventListener('change', function() {
-                readURL(this, 'picSixPreview');
+            addButton.addEventListener('click', function() {
+                // Create a new prototype row
+                const newWidget = wrapper.dataset.prototype.replace(/__name__/g, index);
+                const newDiv = document.createElement('div');
+                newDiv.innerHTML = newWidget;
+                wrapper.appendChild(newDiv);
+                index++;
             });
         });
     </script>

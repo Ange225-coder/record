@@ -31,6 +31,7 @@
                     'choices' => $lunch,
                     'expanded' => true,
                     'multiple' => false,
+                    'data' => 'Non'
                 ])
 
                 ->add('carPark', ChoiceType::class, [
@@ -38,6 +39,7 @@
                     'choices' => $carPark,
                     'expanded' => true,
                     'multiple' => false,
+                    'data' => 'Oui, gratuitement'
                 ])
             ;
         }

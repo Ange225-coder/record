@@ -16,20 +16,8 @@
         #[ORM\Column(type: 'string', nullable: false)]
         private string $teaserPic;
 
-        #[ORM\Column(type: 'string', nullable: true)]
-        private string $picTwo;
-
-        #[ORM\Column(type: 'string', nullable: true)]
-        private string $picThree;
-
-        #[ORM\Column(type: 'string', nullable: true)]
-        private string $picFor;
-
-        #[ORM\Column(type: 'string', nullable: true)]
-        private string $picFive;
-
-        #[ORM\Column(type: 'string', nullable: true)]
-        private string $picSix;
+        #[ORM\Column(type: 'json', nullable: true)]
+        private ?array $optionalPics = [];
 
         #[ORM\ManyToOne(targetEntity: HousingGeneralInfo::class, inversedBy: 'pictures')]
         #[ORM\JoinColumn(name: 'housing_id', referencedColumnName: 'housing_id', nullable: false)]
@@ -47,29 +35,9 @@
             $this->teaserPic = $teaserPic;
         }
 
-        public function setPicTwo(string $picTwo): void
+        public function setOptionalPics(?array $optionalPics): void
         {
-            $this->picTwo = $picTwo;
-        }
-
-        public function setPicThree(string $picThree): void
-        {
-            $this->picThree = $picThree;
-        }
-
-        public function setPicFor(string $picFor): void
-        {
-            $this->picFor = $picFor;
-        }
-
-        public function setPicFive(string $picFive): void
-        {
-            $this->picFive = $picFive;
-        }
-
-        public function setPicSix(string $picSix): void
-        {
-            $this->picSix = $picSix;
+            $this->optionalPics = $optionalPics;
         }
 
         public function setHousingGeneralInfo(?HousingGeneralInfo $housingGeneralInfo): void
@@ -89,29 +57,9 @@
             return $this->teaserPic;
         }
 
-        public function getPicTwo(): string
+        public function getOptionalPics(): ?array
         {
-            return $this->picTwo;
-        }
-
-        public function getPicThree(): string
-        {
-            return $this->picThree;
-        }
-
-        public function getPicFor(): string
-        {
-            return $this->picFor;
-        }
-
-        public function getPicFive(): string
-        {
-            return $this->picFive;
-        }
-
-        public function getPicSix(): string
-        {
-            return $this->picSix;
+            return $this->optionalPics;
         }
 
         public function getHousingGeneralInfo(): ?HousingGeneralInfo

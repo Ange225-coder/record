@@ -17,10 +17,11 @@
                     'label' => 'Hébergement fumeur',
                     'choices' => [
                         'Oui' => 'oui',
-                        'Non' => 'Non'
+                        'Non' => 'non'
                     ],
                     'expanded' => true,
                     'multiple' => false,
+                    'data' => 'non'
                 ])
 
                 ->add('animalIsAccept', ChoiceType::class, [
@@ -30,7 +31,8 @@
                         'Non' => 'non'
                     ],
                     'expanded' => true,
-                    'multiple' => false
+                    'multiple' => false,
+                    'data' => 'oui',
                 ])
 
 
@@ -41,7 +43,8 @@
                         'Non' => 'non'
                     ],
                     'expanded' => true,
-                    'multiple' => false
+                    'multiple' => false,
+                    'data' => 'non'
                 ])
             ;
         }
