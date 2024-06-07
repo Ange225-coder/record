@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription d'hébergement sur Record.com{% endblock %}
+
+{% block body %}
+    <section>
+
+        <h1>Disponibilités</h1>
+
+        {{ form_start(avalaibilityForm) }}
+
+            <div style="display: grid; grid-template-columns: 1fr; gap: 20px">
+                <div>
+                    {{ form_errors(avalaibilityForm.arrivalDate) }}
+                    {{ form_label(avalaibilityForm.arrivalDate) }}
+                    {{ form_widget(avalaibilityForm.arrivalDate) }}
+                </div>
+
+                <div>
+                    {{ form_errors(avalaibilityForm.avalaibilitySynchronisation) }}
+                    {{ form_label(avalaibilityForm.avalaibilitySynchronisation) }}<br >
+                    {{ form_widget(avalaibilityForm.avalaibilitySynchronisation) }}
+                </div>
+
+                <div>
+                    {{ form_errors(avalaibilityForm.stayOfMoreThanThirtyNights) }}
+                    {{ form_label(avalaibilityForm.stayOfMoreThanThirtyNights) }}<br >
+                    {{ form_widget(avalaibilityForm.stayOfMoreThanThirtyNights) }}
+                </div>
+
+                <div>
+                    <button type="submit">Continuer</button>
+                </div>
+            </div>
+
+        {{ form_end(avalaibilityForm) }}
+    </section>
+{% endblock %}

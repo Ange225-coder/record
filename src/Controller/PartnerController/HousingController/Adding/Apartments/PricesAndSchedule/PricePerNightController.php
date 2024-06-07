@@ -25,7 +25,7 @@
 
                 $session->set('price_per_night', $pricePerNightFields->getPricePerNight());
 
-                return $this->redirectToRoute('standard_pricing_plan');
+                return $this->redirectToRoute('standard_pricing_plan', ['housing_id' => $housing_id]);
             }
 
             return $this->render('partners/housing/adding/apartments/pricesAndSchedule/pricePerNight.html.twig', [

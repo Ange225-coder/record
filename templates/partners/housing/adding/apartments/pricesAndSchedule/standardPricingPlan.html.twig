@@ -5,5 +5,14 @@
 {% block body %}
     <section>
         <h1>Plan tarifaire standard</h1>
+
+        <h2>Conditions d'annulation</h2>
+
+        <p>
+            <button>
+                <a href="{{ path('avalaibility', {'housing_id' : id}) }}">Continuer</a>
+            </button>
+
+        </p>
     </section>
 {% endblock %}

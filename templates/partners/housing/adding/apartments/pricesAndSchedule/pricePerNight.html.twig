@@ -6,7 +6,9 @@
     <section>
         <h1>Tarif par nuit</h1>
 
-        {{ form_start(pricePerNightForm) }}
+        <h2>Combien souhaitez-vous facturez par nuit ?</h2>
+
+        {{ form_start(pricePerNightForm, {'attr' : {'novalidate' : 'novalidate'}}) }}
             <div>
                 {{ form_errors(pricePerNightForm.pricePerNight) }}
                 {{ form_label(pricePerNightForm.pricePerNight) }}<br >

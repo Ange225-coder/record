@@ -48,11 +48,19 @@
         #[ORM\OneToMany(targetEntity: HousingPriceAndSchedule::class, mappedBy: 'housingGeneralInfo')]
         private Collection $priceAndSchedule;
 
+        #[ORM\OneToMany(targetEntity: HousingForIndividuals::class, mappedBy: 'housingGeneralInfo')]
+        private Collection $housingForIndividuals;
+
+        #[ORM\OneToMany(targetEntity: HousingForCommercialEntity::class, mappedBy: 'housingGeneralInfo')]
+        private Collection $housingForCommercialEntity;
+
         public function __construct()
         {
             $this->configurations = new ArrayCollection();
             $this->pictures = new ArrayCollection();
             $this->priceAndSchedule = new ArrayCollection();
+            $this->housingForIndividuals = new ArrayCollection();
+            $this->housingForCommercialEntity = new ArrayCollection();
         }
 
 
@@ -153,6 +161,40 @@
             }
         }
 
+        public function addHousingForIndividuals(HousingForIndividuals $housingForIndividuals): void
+        {
+            if(!$this->housingForIndividuals->contains($housingForIndividuals)) {
+                $this->housingForIndividuals->add($housingForIndividuals);
+                $housingForIndividuals->setHousingGeneralInfo($this);
+            }
+        }
+
+        public function removeHousingForIndividuals(HousingForIndividuals $housingForIndividuals): void
+        {
+            if($this->housingForIndividuals->removeElement($housingForIndividuals)) {
+                if($housingForIndividuals->getHousingGeneralInfo() === $this) {
+                    $housingForIndividuals->setHousingGeneralInfo(null);
+                }
+            }
+        }
+
+        public function addHousingForCommercialEntity(HousingForCommercialEntity $housingForCommercialEntity): void
+        {
+            if(!$this->housingForCommercialEntity->contains($housingForCommercialEntity)) {
+                $this->housingForCommercialEntity->add($housingForCommercialEntity);
+                $housingForCommercialEntity->setHousingGeneralInfo($this);
+            }
+        }
+
+        public function removeHousingForCommercialEntity(HousingForCommercialEntity $housingForCommercialEntity): void
+        {
+            if($this->housingForCommercialEntity->removeElement($housingForCommercialEntity)) {
+                if($housingForCommercialEntity->getHousingGeneralInfo() === $this) {
+                    $housingForCommercialEntity->setHousingGeneralInfo(null);
+                }
+            }
+        }
+
 
 
 
@@ -217,4 +259,13 @@
             return $this->priceAndSchedule;
         }
 
+        public function getHousingForIndividuals(): Collection
+        {
+            return $this->housingForIndividuals;
+        }
+
+        public function getHousingForCommercialEntity(): Collection
+        {
+            return $this->housingForCommercialEntity;
+        }
     }
