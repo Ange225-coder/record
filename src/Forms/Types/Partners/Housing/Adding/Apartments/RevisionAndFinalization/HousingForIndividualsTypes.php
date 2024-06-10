@@ -65,10 +65,10 @@
                 ->add('generalConditions', ChoiceType::class, [
                     //'label' => 'j\'ai lu et j\'accepte les conditions générales.',
                     'choices' => [
-                        'j\'ai lu et j\'accepte les conditions générales.' => 'j\'ai lu et j\'accepte les conditions générales.',
+                        'j\'ai lu et j\'accepte les conditions générales.' => 'J\'accepte les conditions générales.',
                     ],
                     'expanded' => true,
-                    'mapped' => false,
+                    'mapped' => true,
                     'multiple' => true,
                 ])
             ;

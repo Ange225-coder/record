@@ -31,15 +31,15 @@
         #[Assert\NotBlank(message: 'Ajoutez l\'adresse (ligne 1) de la résidence de la partie contractante.')]
         private string $first_address;
 
-        private ?string $second_address;
+        private ?string $second_address = null;
 
         #[Assert\NotBlank(message: 'Ajoutez la ville de résidence principale de la partie contractante')]
         private string $town;
 
-        private ?string $postal_code;
+        private ?string $postal_code = null;
 
         #[Assert\NotBlank(message: 'Pour continuer, confirmez qu\'il s\'agit bien d\'une activité d\'hébergement légale disposant de tous les justificatifs nécessaires.')]
-        private string $generalConditions;
+        private array $generalConditions;
 
 
 
@@ -94,7 +94,7 @@
             $this->second_address = $second_address;
         }
 
-        public function setGeneralConditions(string $generalConditions): void
+        public function setGeneralConditions(array $generalConditions): void
         {
             $this->generalConditions = $generalConditions;
         }
@@ -153,7 +153,7 @@
             return $this->second_address;
         }
 
-        public function getGeneralConditions(): string
+        public function getGeneralConditions(): array
         {
             return $this->generalConditions;
         }
