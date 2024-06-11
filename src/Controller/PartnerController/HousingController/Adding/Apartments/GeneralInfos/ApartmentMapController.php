@@ -2,7 +2,6 @@
 
     namespace App\Controller\PartnerController\HousingController\Adding\Apartments\GeneralInfos;
 
-    use App\Entity\Tables\Housing\HousingConfigurations;
     use App\Entity\Tables\Housing\HousingGeneralInfo;
     use Doctrine\ORM\EntityManagerInterface;
     use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

@@ -3,24 +3,22 @@
     namespace App\Forms\Types\Partners\Housing\Adding\Apartments\RevisionAndFinalization;
 
     use Symfony\Component\Form\AbstractType;
+    use App\Forms\Fields\Partners\Housing\Adding\Apartments\RevisionAndFinalization\HousingGeneralsConditionsFields;
     use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
     use Symfony\Component\Form\FormBuilderInterface;
     use Symfony\Component\OptionsResolver\OptionsResolver;
-    use App\Forms\Fields\Partners\Housing\Adding\Apartments\RevisionAndFinalization\HousingChoiceFields;
 
-    class HousingChoiceTypes extends AbstractType
+    class HousingGeneralsConditionsTypes extends AbstractType
     {
         public function buildForm(FormBuilderInterface $builder, array $options): void
         {
-            $builder->add('housingChoice', ChoiceType::class, [
-                'label' => 'Votre réponse à cette question permettra d\'inclure toutes les informations nécessaires dans votre contract',
+            $builder->add('generalsConditions', ChoiceType::class, [
+                'label' => 'Conditions générales',
                 'choices' => [
-                    'Particulier' => 'individuals',
-                    'Entité commercial' => 'commercial_entity'
+                    'j\'ai lu et j\'accepte les conditions générales.' => 'J\'accepte les conditions générales.',
                 ],
                 'expanded' => true,
-                'multiple' => false,
-                'mapped' => false
+                'multiple' => true,
             ]);
         }
 
@@ -28,7 +26,7 @@
         public function configureOptions(OptionsResolver $resolver): void
         {
             $resolver->setDefaults([
-                'data_class' => HousingChoiceFields::class,
+                'data_class' => HousingGeneralsConditionsFields::class,
             ]);
         }
     }

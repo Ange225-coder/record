@@ -8,13 +8,26 @@
     use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
     use Symfony\Component\Form\FormBuilderInterface;
     use Symfony\Component\OptionsResolver\OptionsResolver;
-    use App\Forms\Fields\Partners\Housing\Adding\Apartments\RevisionAndFinalization\HousingForIndividualsFields;
+    use App\Forms\Fields\Partners\Housing\Adding\Apartments\RevisionAndFinalization\HousingFinalizationFields;
 
-    class HousingForIndividualsTypes extends AbstractType
+    class HousingFinalizationTypes extends AbstractType
     {
         public function buildForm(FormBuilderInterface $builder, array $options): void
         {
             $builder
+                ->add('housing_choices', ChoiceType::class, [
+                    'choices' => [
+                        'Particulier' => 'individual',
+                        'Entité commerciale' => 'commercial_entity'
+                    ],
+                    'expanded' => true,
+                    'multiple' => false
+                ])
+
+                ->add('social_reason', TextType::class, [
+                    'label' => 'Raison sociale'
+                ])
+
                 ->add('first_name', TextType::class, [
                     'label' => 'Prénom'
                 ])
@@ -78,7 +91,7 @@
         public function configureOptions(OptionsResolver $resolver): void
         {
             $resolver->setDefaults([
-                'data_class' => HousingForIndividualsFields::class,
+                'data_class' => HousingFinalizationFields::class,
             ]);
         }
     }

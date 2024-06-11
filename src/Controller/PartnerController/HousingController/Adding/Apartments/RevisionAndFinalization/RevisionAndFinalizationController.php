@@ -2,18 +2,17 @@
 
     namespace App\Controller\PartnerController\HousingController\Adding\Apartments\RevisionAndFinalization;
 
-    use App\Entity\Tables\Housing\HousingForCommercialEntity;
-    use App\Entity\Tables\Housing\HousingForIndividuals;
+    use App\Entity\Tables\Housing\HousingFinalization;
     use App\Entity\Tables\Housing\HousingGeneralInfo;
-    use App\Forms\Fields\Partners\Housing\Adding\Apartments\RevisionAndFinalization\HousingForCommercialEntityFields;
-    use App\Forms\Types\Partners\Housing\Adding\Apartments\RevisionAndFinalization\HousingForCommercialEntityTypes;
     use Symfony\Component\HttpFoundation\Response;
     use Symfony\Component\HttpFoundation\Request;
     use Symfony\Component\Routing\Annotation\Route;
     use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
     use Doctrine\ORM\EntityManagerInterface;
-    use App\Forms\Fields\Partners\Housing\Adding\Apartments\RevisionAndFinalization\HousingForIndividualsFields;
-    use App\Forms\Types\Partners\Housing\Adding\Apartments\RevisionAndFinalization\HousingForIndividualsTypes;
+    use App\Forms\Fields\Partners\Housing\Adding\Apartments\RevisionAndFinalization\HousingFinalizationFields;
+    use App\Forms\Types\Partners\Housing\Adding\Apartments\RevisionAndFinalization\HousingFinalizationTypes;
+    use App\Forms\Fields\Partners\Housing\Adding\Apartments\RevisionAndFinalization\HousingGeneralsConditionsFields;
+    use App\Forms\Types\Partners\Housing\Adding\Apartments\RevisionAndFinalization\HousingGeneralsConditionsTypes;
 
     class RevisionAndFinalizationController extends AbstractController
     {
@@ -22,43 +21,80 @@
         {
             $housingId = $entityManager->getRepository(HousingGeneralInfo::class)->find($housing_id);
 
-            $forIndividualsFields = new HousingForIndividualsFields();
-            $forCommercialEntityFields = new HousingForCommercialEntityFields();
+            //get partner to check if it already exists in HousingFinalization table
+            $getPartner = $entityManager->getRepository(HousingFinalization::class)->findOneBy([
+                'partner' => $this->getUser()->getUserIdentifier(),
+            ]);
+            $partner = null;
 
-            $forIndividualsEntity = new HousingForIndividuals();
-            $forCommercialEntity_entity = new HousingForCommercialEntity();
+            if($getPartner !== null) {
+                $partner = $getPartner->getPartner();
+            }
 
-            $forIndividualsTypes = $this->createForm(HousingForIndividualsTypes::class, $forIndividualsFields);
-            $forCommercialEntityTypes = $this->createForm(HousingForCommercialEntityTypes::class, $forCommercialEntityFields);
+            $housingFinalizationEntity = new HousingFinalization();
 
-            $forIndividualsTypes->handleRequest($request);
+            $housingFinalizationFields = new HousingFinalizationFields();
+            $housingGeneralsConditionsFields = new HousingGeneralsConditionsFields();
 
-            //for individuals manager
-            if($forIndividualsTypes->isSubmitted() && $forIndividualsTypes->isValid()) {
+            $housingFinalizationTypes = $this->createForm(HousingFinalizationTypes::class, $housingFinalizationFields);
+            $housingGeneralsConditionsTypes = $this->createForm(HousingGeneralsConditionsTypes::class, $housingGeneralsConditionsFields);
 
-                $forIndividualsEntity->setHousingGeneralInfo($housingId);
-                $forIndividualsEntity->setFirstName($forIndividualsFields->getFirstName());
-                $forIndividualsEntity->setOtherFirstName($forIndividualsFields->getOtherFirstName());
-                $forIndividualsEntity->setLastName($forIndividualsFields->getLastName());
-                $forIndividualsEntity->setEmail($forIndividualsFields->getEmail());
-                $forIndividualsEntity->setPhone($forIndividualsFields->getPhone());
-                $forIndividualsEntity->setLocation($forIndividualsFields->getLocation());
-                $forIndividualsEntity->setFirstAddress($forIndividualsFields->getFirstAddress());
-                $forIndividualsEntity->setSecondAddress($forIndividualsFields->getSecondAddress());
-                $forIndividualsEntity->setTown($forIndividualsFields->getTown());
-                $forIndividualsEntity->setPostalCode($forIndividualsFields->getPostalCode());
+            $housingFinalizationTypes->handleRequest($request);
+            $housingGeneralsConditionsTypes->handleRequest($request);
 
-                $entityManager->persist($forIndividualsEntity);
+            //form if partner does not exist
+            if($housingFinalizationTypes->isSubmitted() && $housingFinalizationTypes->isValid()) {
+
+                if($housingFinalizationFields->getHousingChoices() === 'individual') {
+                    $housingFinalizationEntity->setSocialReason(null);
+                }
+                elseif($housingFinalizationFields->getHousingChoices() == 'commercial_entity') {
+                    $housingFinalizationEntity->setSocialReason($housingFinalizationFields->getSocialReason());
+                }
+
+                $housingFinalizationEntity->setHousingGeneralInfo($housingId);
+                $housingFinalizationEntity->setFirstName($housingFinalizationFields->getFirstName());
+                $housingFinalizationEntity->setOtherFirstName($housingFinalizationFields->getOtherFirstName());
+                $housingFinalizationEntity->setLastName($housingFinalizationFields->getLastName());
+                $housingFinalizationEntity->setEmail($housingFinalizationFields->getEmail());
+                $housingFinalizationEntity->setLocation($housingFinalizationFields->getLocation());
+                $housingFinalizationEntity->setFirstAddress($housingFinalizationFields->getFirstAddress());
+                $housingFinalizationEntity->setSecondAddress($housingFinalizationFields->getSecondAddress());
+                $housingFinalizationEntity->setTown($housingFinalizationFields->getTown());
+                $housingFinalizationEntity->setPostalCode($housingFinalizationFields->getPostalCode());
+                $housingFinalizationEntity->setPhone($housingFinalizationFields->getPhone());
+                $housingFinalizationEntity->setPartner($this->getUser()->getUserIdentifier());
+
+                $entityManager->persist($housingFinalizationEntity);
                 $entityManager->flush();
 
-                //cette redirection est momentanée
-                //après, il faut rediriger vers les details de l herbergement courant en fonction de son identifiant
+                return $this->redirectToRoute('partner_admin_housing_details', ['housing_id' => $housingId->getHousingId()]);
+            }
+
+
+            //form if partner already exist
+            if($housingGeneralsConditionsTypes->isSubmitted() && $housingGeneralsConditionsTypes->isValid()) {
+
+                $housingFinalizationEntity->setHousingGeneralInfo($housingId);
+                $housingFinalizationEntity->setFirstName($getPartner->getFirstName());
+                $housingFinalizationEntity->setLastName($getPartner->getLastName());
+                $housingFinalizationEntity->setEmail($getPartner->getEmail());
+                $housingFinalizationEntity->setPhone($getPartner->getPhone());
+                $housingFinalizationEntity->setLocation($getPartner->getLocation());
+                $housingFinalizationEntity->setFirstAddress($getPartner->getFirstAddress());
+                $housingFinalizationEntity->setTown($getPartner->getTown());
+                $housingFinalizationEntity->setPartner($getPartner->getPartner());
+
+                $entityManager->persist($housingFinalizationEntity);
+                $entityManager->flush();
+
                 return $this->redirectToRoute('partner_admin_housing_details', ['housing_id' => $housingId->getHousingId()]);
             }
 
             return $this->render('partners/housing/adding/apartments/RevisionAndFinalization/revisionAndFinalization.html.twig', [
-                'individualsForm' => $forIndividualsTypes->createView(),
-                'commercialEntityForm' => $forCommercialEntityTypes->createView(),
+                'finalizationForm' => $housingFinalizationTypes->createView(),
+                'generalsConditionsForm' => $housingGeneralsConditionsTypes->createView(),
+                'partner' => $partner,
             ]);
         }
     }

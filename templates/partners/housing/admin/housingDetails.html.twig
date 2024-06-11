@@ -1,13 +1,33 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{# nom de l herbergement ici #}{% endblock %}
+{% block title %}{{ housing_name }}.{% endblock %}
 
 {% block body %}
     <section>
         <h1>Record.com</h1>
 
-        <details>
-            <summary>{# current housing #}</summary>
+        <details open>
+            <summary>{{ housing_name }} {{ housing_id }}</summary>
+
+            <div>
+                {# tous les éléments à l'intérieur de ce div sont des liens et ses liens doivent rediriger vers soit l'apercu de l'appartement, soit vers la page de reservation de cet appartement #}
+                {% for my_house in housing_save %}
+
+                    {% for pictures in housing_pictures %}
+                        <p>
+                            <img src="{{ asset(pictures.teaserPic) }}" alt="img" width="200px">
+                        </p>
+                    {% endfor %}
+
+                    <p>
+                        {{ my_house.firstName }}
+                    </p>
+
+                    <p>
+                        {{ my_house.housingGeneralInfo.housingId }}
+                    </p>
+                {% endfor %}
+            </div>
         </details>
     </section>
 {% endblock %}

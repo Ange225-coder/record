@@ -6,200 +6,186 @@
     <section>
         <h1>Vous avez presque fini !</h1>
 
+        {#
         <div>
-            <p>
-                <label for="for_individuals"> Particulier
-                    <input type="radio" id="for_individuals" name="housing_finalisation" >
-                </label>
-            </p>
+                    <p>
+                        <label for="for_individuals"> Particulier
+                            <input type="radio" id="for_individuals" name="housing_finalisation" >
+                        </label>
+                    </p>
 
-            <p>
-                <label for="for_commercial_entity"> Entité commerciale
-                    <input type="radio" id="for_commercial_entity" name="housing_finalisation">
-                </label>
-            </p>
-        </div>
+                    <p>
+                        <label for="for_commercial_entity"> Entité commerciale
+                            <input type="radio" id="for_commercial_entity" name="housing_finalisation">
+                        </label>
+                    </p>
+            </div>
+        #}
 
-        <div style="display: none" id="for_individuals_form">
-            {{ form_start(individualsForm, {'attr' : {'novalidate' : 'novalidate'}}) }}
-                <div style="display: grid; grid-template-columns: 1fr; gap: 20px;">
+        {% if partner is not null %}
+
+            <div>
+                {{ form_start(generalsConditionsForm, {'attr' : {'novalidate' : 'novalidate'}}) }}
                     <div>
-                        {{ form_label(individualsForm.first_name) }}<br >
-                        {{ form_widget(individualsForm.first_name) }}
-                        {{ form_errors(individualsForm.first_name) }}
+                        {{ form_label(generalsConditionsForm.generalsConditions) }}
+                        {{ form_widget(generalsConditionsForm.generalsConditions) }}
+                        {{ form_errors(generalsConditionsForm.generalsConditions) }}
+                    </div>
+
+                    <button type="submit">Ouvrir mon hébergement à la reservation</button>
+                {{ form_end(generalsConditionsForm) }}
+            </div>
+
+        {% else %}
+            {{ form_start(finalizationForm, {'attr' : {'novalidate' : 'novalidate'}}) }}
+            <div style="display: grid; grid-template-columns: 1fr; gap: 20px;">
+
+                <div>
+                    {{ form_errors(finalizationForm.housing_choices) }}
+                    {{ form_widget(finalizationForm.housing_choices) }}
+                </div>
+
+                <div id="forms_fields" style="display: none">
+
+                    <div style="display: none;" id="social_reason">
+                        {{ form_label(finalizationForm.social_reason) }}<br >
+                        {{ form_widget(finalizationForm.social_reason) }}
+                        {{ form_errors(finalizationForm.social_reason) }}
                     </div>
 
                     <div>
-                        {{ form_label(individualsForm.other_first_name) }}<br >
-                        {{ form_widget(individualsForm.other_first_name) }}
-                        {{ form_errors(individualsForm.other_first_name) }}
+                        {{ form_label(finalizationForm.first_name) }}<br >
+                        {{ form_widget(finalizationForm.first_name) }}
+                        {{ form_errors(finalizationForm.first_name) }}
                     </div>
 
                     <div>
-                        {{ form_label(individualsForm.last_name) }}<br >
-                        {{ form_widget(individualsForm.last_name) }}
-                        {{ form_errors(individualsForm.last_name) }}
+                        {{ form_label(finalizationForm.other_first_name) }}<br >
+                        {{ form_widget(finalizationForm.other_first_name) }}
+                        {{ form_errors(finalizationForm.other_first_name) }}
                     </div>
 
                     <div>
-                        {{ form_label(individualsForm.email) }}<br >
-                        {{ form_widget(individualsForm.email) }}
-                        {{ form_errors(individualsForm.email) }}
+                        {{ form_label(finalizationForm.last_name) }}<br >
+                        {{ form_widget(finalizationForm.last_name) }}
+                        {{ form_errors(finalizationForm.last_name) }}
                     </div>
 
                     <div>
-                        {{ form_label(individualsForm.phone) }}<br >
-                        {{ form_widget(individualsForm.phone) }}
-                        {{ form_errors(individualsForm.phone) }}
+                        {{ form_label(finalizationForm.email) }}<br >
+                        {{ form_widget(finalizationForm.email) }}
+                        {{ form_errors(finalizationForm.email) }}
                     </div>
 
                     <div>
-                        {{ form_label(individualsForm.location) }}<br >
-                        {{ form_widget(individualsForm.location) }}
-                        {{ form_errors(individualsForm.location) }}
+                        {{ form_label(finalizationForm.phone) }}<br >
+                        {{ form_widget(finalizationForm.phone) }}
+                        {{ form_errors(finalizationForm.phone) }}
                     </div>
 
                     <div>
-                        {{ form_label(individualsForm.first_address) }}<br >
-                        {{ form_widget(individualsForm.first_address) }}
-                        {{ form_errors(individualsForm.first_address) }}
+                        {{ form_label(finalizationForm.location) }}<br >
+                        {{ form_widget(finalizationForm.location) }}
+                        {{ form_errors(finalizationForm.location) }}
                     </div>
 
                     <div>
-                        {{ form_label(individualsForm.second_address) }}<br >
-                        {{ form_widget(individualsForm.second_address) }}
-                        {{ form_errors(individualsForm.second_address) }}
+                        {{ form_label(finalizationForm.first_address) }}<br >
+                        {{ form_widget(finalizationForm.first_address) }}
+                        {{ form_errors(finalizationForm.first_address) }}
                     </div>
 
                     <div>
-                        {{ form_label(individualsForm.town) }}<br >
-                        {{ form_widget(individualsForm.town) }}
-                        {{ form_errors(individualsForm.town) }}
+                        {{ form_label(finalizationForm.second_address) }}<br >
+                        {{ form_widget(finalizationForm.second_address) }}
+                        {{ form_errors(finalizationForm.second_address) }}
                     </div>
 
                     <div>
-                        {{ form_label(individualsForm.postal_code) }}<br >
-                        {{ form_widget(individualsForm.postal_code) }}
-                        {{ form_errors(individualsForm.postal_code) }}
+                        {{ form_label(finalizationForm.town) }}<br >
+                        {{ form_widget(finalizationForm.town) }}
+                        {{ form_errors(finalizationForm.town) }}
                     </div>
 
                     <div>
-                        {{ form_label(individualsForm.generalConditions) }}<br >
-                        {{ form_widget(individualsForm.generalConditions) }}
-                        {{ form_errors(individualsForm.generalConditions) }}
+                        {{ form_label(finalizationForm.postal_code) }}<br >
+                        {{ form_widget(finalizationForm.postal_code) }}
+                        {{ form_errors(finalizationForm.postal_code) }}
+                    </div>
+
+                    <div>
+                        {{ form_label(finalizationForm.generalConditions) }}<br >
+                        {{ form_widget(finalizationForm.generalConditions) }}
+                        {{ form_errors(finalizationForm.generalConditions) }}
                     </div>
 
                     <div>
                         <button type="submit">Ouvrir mon hébergement à la reservation</button>
                     </div>
+
                 </div>
-            {{ form_end(individualsForm) }}
-        </div>
 
-        <div style="display: none" id="for_commercial_entity_form">
-            {{ form_start(commercialEntityForm, {'attr' : {'novalidate' : 'novalidate'}}) }}
-                <div style="display: grid; grid-template-columns: 1fr; gap: 20px;">
-                    <div>
-                        {{ form_label(commercialEntityForm.social_reason) }}<br >
-                        {{ form_widget(commercialEntityForm.social_reason) }}
-                        {{ form_errors(commercialEntityForm.social_reason) }}
-                    </div>
 
-                    <div>
-                        {{ form_label(commercialEntityForm.first_name) }}<br >
-                        {{ form_widget(commercialEntityForm.first_name) }}
-                        {{ form_errors(commercialEntityForm.first_name) }}
-                    </div>
+            </div>
+            {{ form_end(finalizationForm) }}
+        {% endif %}
 
-                    <div>
-                        {{ form_label(commercialEntityForm.other_first_name) }}<br >
-                        {{ form_widget(commercialEntityForm.other_first_name) }}
-                        {{ form_errors(commercialEntityForm.other_first_name) }}
-                    </div>
 
-                    <div>
-                        {{ form_label(commercialEntityForm.last_name) }}<br >
-                        {{ form_widget(commercialEntityForm.last_name) }}
-                        {{ form_errors(commercialEntityForm.last_name) }}
-                    </div>
 
-                    <div>
-                        {{ form_label(commercialEntityForm.email) }}<br >
-                        {{ form_widget(commercialEntityForm.email) }}
-                        {{ form_errors(commercialEntityForm.email) }}
-                    </div>
-
-                    <div>
-                        {{ form_label(commercialEntityForm.phone) }}<br >
-                        {{ form_widget(commercialEntityForm.phone) }}
-                        {{ form_errors(commercialEntityForm.phone) }}
-                    </div>
-
-                    <div>
-                        {{ form_label(commercialEntityForm.location) }}<br >
-                        {{ form_widget(commercialEntityForm.location) }}
-                        {{ form_errors(commercialEntityForm.location) }}
-                    </div>
-
-                    <div>
-                        {{ form_label(commercialEntityForm.first_address) }}<br >
-                        {{ form_widget(commercialEntityForm.first_address) }}
-                        {{ form_errors(commercialEntityForm.first_address) }}
-                    </div>
-
-                    <div>
-                        {{ form_label(commercialEntityForm.second_address) }}<br >
-                        {{ form_widget(commercialEntityForm.second_address) }}
-                        {{ form_errors(commercialEntityForm.second_address) }}
-                    </div>
-
-                    <div>
-                        {{ form_label(commercialEntityForm.town) }}<br >
-                        {{ form_widget(commercialEntityForm.town) }}
-                        {{ form_errors(commercialEntityForm.town) }}
-                    </div>
-
-                    <div>
-                        {{ form_label(commercialEntityForm.postal_code) }}<br >
-                        {{ form_widget(commercialEntityForm.postal_code) }}
-                        {{ form_errors(commercialEntityForm.postal_code) }}
-                    </div>
-
-                    <div>
-                        {{ form_label(commercialEntityForm.generalConditions) }}<br >
-                        {{ form_widget(commercialEntityForm.generalConditions) }}
-                        {{ form_errors(commercialEntityForm.generalConditions) }}
-                    </div>
-
-                    <div>
-                        <button type="submit">Ouvrir mon hébergement à la reservation</button>
-                    </div>
-                </div>
-            {{ form_end(commercialEntityForm) }}
-        </div>
     </section>
 {% endblock %}
 
 
 {% block javascripts %}
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Get radio buttons and form containers
-            const radioIndividuals = document.getElementById('for_individuals');
-            const radioCommercialEntity = document.getElementById('for_commercial_entity');
-            const individualsForm = document.getElementById('for_individuals_form');
-            const commercialEntityForm = document.getElementById('for_commercial_entity_form');
+        document.addEventListener('DOMContentLoaded', function() {
+            const finalizationForm = document.getElementById('finalizationForm');
+            const particulierRadio = document.getElementById('housing_finalization_types_housing_choices_0');
+            const entiteCommercialeRadio = document.getElementById('housing_finalization_types_housing_choices_1');
+            const formsFields = document.getElementById('forms_fields');
+            const socialReason = document.getElementById('social_reason');
 
-            // Add event listeners to radio buttons
-            radioIndividuals.addEventListener('click', function () {
-                individualsForm.style.display = 'block';
-                commercialEntityForm.style.display = 'none';
+            // Stockez l'état initial des options sélectionnées
+            let isParticulierSelected = particulierRadio.checked;
+            let isEntiteCommercialeSelected = entiteCommercialeRadio.checked;
+
+            // Fonction pour afficher les champs appropriés en fonction de l'option sélectionnée
+            function displayFields() {
+                if (isParticulierSelected) {
+                    formsFields.style.display = 'block';
+                    socialReason.style.display = 'none';
+                } else if (isEntiteCommercialeSelected) {
+                    formsFields.style.display = 'block';
+                    socialReason.style.display = 'block';
+                }
+            }
+
+            // Affichez les champs appropriés au chargement de la page
+            displayFields();
+
+            // Écoutez les changements de sélection des options
+            particulierRadio.addEventListener('change', function() {
+                isParticulierSelected = true;
+                isEntiteCommercialeSelected = false;
+                displayFields();
             });
 
-            radioCommercialEntity.addEventListener('click', function () {
-                individualsForm.style.display = 'none';
-                commercialEntityForm.style.display = 'block';
+            entiteCommercialeRadio.addEventListener('change', function() {
+                isParticulierSelected = false;
+                isEntiteCommercialeSelected = true;
+                displayFields();
+            });
+
+            // Soumission du formulaire
+            finalizationForm.addEventListener('submit', function(event) {
+                // Empêche la soumission du formulaire pour le moment
+                event.preventDefault();
+
+                // Maintenant, vous pouvez soumettre le formulaire
+                finalizationForm.submit();
             });
         });
+
+
     </script>
 {% endblock %}

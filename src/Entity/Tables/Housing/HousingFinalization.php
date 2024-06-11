@@ -5,13 +5,16 @@
     use Doctrine\ORM\Mapping as ORM;
 
     #[ORM\Entity]
-    #[ORM\Table(name: 'housing_for_individuals')]
-    class HousingForIndividuals
+    #[ORM\Table(name: 'housing_finalization')]
+    class HousingFinalization
     {
         #[ORM\Id]
         #[ORM\GeneratedValue(strategy: 'AUTO')]
         #[ORM\Column(type: 'integer')]
         private int $id;
+
+        #[ORM\Column(type: 'string', length: 125, nullable: true)]
+        private ?string $social_reason;
 
         #[ORM\Column(type: 'string', length: 125)]
         private string $first_name;
@@ -43,7 +46,10 @@
         #[ORM\Column(type: 'string', length: 120, nullable: true)]
         private ?string $postal_code;
 
-        #[ORM\ManyToOne(targetEntity: HousingGeneralInfo::class, inversedBy: 'housingForIndividuals')]
+        #[ORM\Column(type: 'string', length: 55)]
+        private string $partner;
+
+        #[ORM\ManyToOne(targetEntity: HousingGeneralInfo::class, inversedBy: 'housingFinalization')]
         #[ORM\JoinColumn(name: 'housing_id', referencedColumnName: 'housing_id', nullable: false)]
         private ?HousingGeneralInfo $housingGeneralInfo;
 
@@ -52,6 +58,11 @@
         public function setId(int $id): void
         {
             $this->id = $id;
+        }
+
+        public function setSocialReason(?string $social_reason): void
+        {
+            $this->social_reason = $social_reason;
         }
 
         public function setFirstName(string $first_name): void
@@ -104,6 +115,11 @@
             $this->second_address = $second_address;
         }
 
+        public function setPartner(string $partner): void
+        {
+            $this->partner = $partner;
+        }
+
         public function setHousingGeneralInfo(?HousingGeneralInfo $housingGeneralInfo): void
         {
             $this->housingGeneralInfo = $housingGeneralInfo;
@@ -114,6 +130,12 @@
         public function getId(): int
         {
             return $this->id;
+        }
+
+
+        public function getSocialReason(): ?string
+        {
+            return $this->social_reason;
         }
 
         public function getPostalCode(): ?string
@@ -164,6 +186,11 @@
         public function getSecondAddress(): ?string
         {
             return $this->second_address;
+        }
+
+        public function getPartner(): string
+        {
+            return $this->partner;
         }
 
         public function getHousingGeneralInfo(): ?HousingGeneralInfo
