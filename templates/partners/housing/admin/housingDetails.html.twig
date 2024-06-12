@@ -6,27 +6,38 @@
     <section>
         <h1>Record.com</h1>
 
-        <details open>
-            <summary>{{ housing_name }} {{ housing_id }}</summary>
+        <p>
+            <a href="{{ path('partner_logout') }}">Déconnexion</a>
+        </p>
+
+        <details>
+            <summary>{{ housing_name }} | {{ housing_id }}</summary>
 
             <div>
                 {# tous les éléments à l'intérieur de ce div sont des liens et ses liens doivent rediriger vers soit l'apercu de l'appartement, soit vers la page de reservation de cet appartement #}
-                {% for my_house in housing_save %}
 
-                    {% for pictures in housing_pictures %}
+                <a href="#" title="preview">
+                    {% for my_house in housing_save %}
+
+                        {% set housingPictures = housing_pictures[my_house.housingGeneralInfo.housingId] %}
+                        {% for picture in housingPictures %}
+
+                            <p>
+                                <img src="{{ asset(picture.teaserPic) }}" alt="img" width="100px">
+                            </p>
+
+                        {% endfor %}
+
                         <p>
-                            <img src="{{ asset(pictures.teaserPic) }}" alt="img" width="200px">
+                            {{ my_house.housingGeneralInfo.housingName }}
+                        </p>
+
+                        <p>
+                            {{ my_house.housingGeneralInfo.housingId }}
                         </p>
                     {% endfor %}
+                </a>
 
-                    <p>
-                        {{ my_house.firstName }}
-                    </p>
-
-                    <p>
-                        {{ my_house.housingGeneralInfo.housingId }}
-                    </p>
-                {% endfor %}
             </div>
         </details>
     </section>

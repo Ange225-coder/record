@@ -47,6 +47,9 @@
         private ?string $postal_code;
 
         #[ORM\Column(type: 'string', length: 55)]
+        private string $status = 'ouvert';
+
+        #[ORM\Column(type: 'string', length: 55)]
         private string $partner;
 
         #[ORM\ManyToOne(targetEntity: HousingGeneralInfo::class, inversedBy: 'housingFinalization')]
@@ -93,6 +96,11 @@
         public function setTown(string $town): void
         {
             $this->town = $town;
+        }
+
+        public function setStatus(string $status): void
+        {
+            $this->status = $status;
         }
 
         public function setFirstAddress(string $first_address): void
@@ -176,6 +184,11 @@
         public function getOtherFirstName(): ?string
         {
             return $this->other_first_name;
+        }
+
+        public function getStatus(): string
+        {
+            return $this->status;
         }
 
         public function getPhone(): string

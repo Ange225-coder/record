@@ -4,4 +4,22 @@
 
 {% block body %}
     <h1>Page d'accueil du groupe</h1>
+
+    {% for house in all_housing %}
+
+        <div style="display: flex; justify-content: space-around">
+            <p>
+                <strong>Identifiant</strong><br >
+                <a href="{{ path('partner_admin_housing_details', {'housing_id' : house.housingGeneralInfo.housingId }) }}" target="_blank">{{ house.housingGeneralInfo.housingId }}</a>
+            </p>
+
+            <p>
+                <strong>Établissements</strong><br >
+                {{ house.housingGeneralInfo.housingName }}, {{ house.housingGeneralInfo.housingAddress }}, {{ house.housingGeneralInfo.housingTown }}
+            </p>
+
+            {# ici, ajouter le statu de la reservation ici #}
+        </div>
+
+    {% endfor %}
 {% endblock %}

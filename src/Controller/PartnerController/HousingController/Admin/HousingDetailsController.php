@@ -17,24 +17,29 @@
         {
             $housing = $entityManager->getRepository(HousingGeneralInfo::class)->find($housing_id);
 
-            //$allHousing
-
             $housingSave = $entityManager->getRepository(HousingFinalization::class)->findBy(
                 [
-                    'housingGeneralInfo' => $housing,
                     'partner' => $this->getUser()->getUserIdentifier()
                 ]
             );
 
-            $picturesSaves = $entityManager->getRepository(HousingPictures::class)->findBy([
-                'housingGeneralInfo' => $housing,
-            ]);
+            //get the teaser pic for each housing
+            $allHousings = $entityManager->getRepository(HousingGeneralInfo::class)->findAll();
+
+            $allPictures = [];
+            foreach ($allHousings as $house) {
+
+                $pictures = $entityManager->getRepository(HousingPictures::class)->findBy([
+                    'housingGeneralInfo' => $house->getHousingId(),
+                ]);
+                $allPictures[$house->getHousingId()] = $pictures;
+            }
 
             return $this->render('partners/housing/admin/housingDetails.html.twig', [
                 'housing_name' => $housing->getHousingName(),
                 'housing_id' => $housing->getHousingId(),
                 'housing_save' => $housingSave,
-                'housing_pictures' => $picturesSaves,
+                'housing_pictures' => $allPictures,
             ]);
         }
     }
