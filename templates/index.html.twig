@@ -11,6 +11,8 @@
 {% block body %}
     <section>
         <h1>RECORD</h1>
+
+        <a href="{{ path('home') }}">Hébergement</a>
     </section>
 
     {% if app.user %}
@@ -71,5 +73,81 @@
         </div>
     {% endif %}
 
+    <section>
+        <h1>Trouvez votre prochain séjour</h1>
 
+        {# research form #}
+        <div>
+            {{ form_start(searchingForm, {'attr' : {'novalidate' : 'novalidate'}}) }}
+            <div style="display: flex;">
+                <div>
+                    {{ form_widget(searchingForm.town) }}
+                    {{ form_errors(searchingForm.town) }}
+                </div>
+
+                <details>
+                    <summary id="summary">Personne : . Enfant : </summary>
+                    <div>
+                        Adult : {{ form_widget(searchingForm.peopleCanStay) }}
+                    </div>
+
+                    <div>
+                        Enfant : {{ form_widget(searchingForm.kidIsAccept) }}
+                    </div>
+
+                    <button id="finishBtn">Terminé</button>
+                </details>
+
+                <div>
+                    <button type="submit">Rechercher</button>
+                </div>
+            </div>
+
+            {{ form_end(searchingForm) }}
+        </div>
+
+        {# research result #}
+        <div>
+            {% if housingGeneralInfo is not empty %}
+                <h2>{{ housingGeneralInfo|length }} Résultats pour la ville "{{ searchingForm.town.vars.value }}" :</h2>
+                <ul>
+                    {% for info in housingGeneralInfo %}
+                        <li>{{ info.housingName }} - {{ info.housingAddress }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+    </section>
+
+{% endblock %}
+
+
+{% block javascripts %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('finishBtn').addEventListener('click', function(event) {
+                event.preventDefault(); // Empêcher le rechargement de la page
+
+                var peopleCanStay = document.getElementById('searches_housing_types_peopleCanStay').value;
+
+                var kidIsAcceptElements = document.getElementsByName('searches_housing_types[kidIsAccept]');
+                var kidIsAccept;
+                for (var i = 0; i < kidIsAcceptElements.length; i++) {
+                    if (kidIsAcceptElements[i].checked) {
+                        kidIsAccept = kidIsAcceptElements[i].value;
+                        break;
+                    }
+                }
+
+                var summaryText = `Personne : ${peopleCanStay}. Enfant : ${kidIsAccept}`;
+                document.getElementById('summary').textContent = summaryText;
+            });
+
+            // Optionnel : intercepter la soumission du formulaire pour empêcher le rechargement de la page
+            document.getElementById('finishBtn').addEventListener('submit', function(event) {
+                event.preventDefault(); // Empêcher le rechargement de la page
+                // Vous pouvez ajouter ici votre logique de traitement du formulaire via AJAX par exemple
+            });
+        });
+    </script>
 {% endblock %}

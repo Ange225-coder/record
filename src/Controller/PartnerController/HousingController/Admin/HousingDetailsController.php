@@ -17,7 +17,7 @@
         {
             $housing = $entityManager->getRepository(HousingGeneralInfo::class)->find($housing_id);
 
-            $housingSave = $entityManager->getRepository(HousingFinalization::class)->findBy(
+            $housingSave = $entityManager->getRepository(HousingGeneralInfo::class)->findBy(
                 [
                     'partner' => $this->getUser()->getUserIdentifier()
                 ]
