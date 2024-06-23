@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+    php-env:
+        depends_on:
+            - bk_clone_db
+        build: .
+        ports:
+            - "9000:8000"
+        volumes:
+            - ./bk-clone:/var/www/html
+
+
+
+    bk_clone_db:
+        image: mysql:latest
+        restart: always
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+        volumes:
+            - bk_clone_db_data:/var/lib/mysql
+        ports:
+            - "3306:3306"
+
+
+    phpmyadmin:
+        image: phpmyadmin:latest
+        depends_on:
+            - bk_clone_db
+        restart: always
+        ports:
+            - "9002:80"
+        environment:
+            - PMA_ARBITRARY=1
+
+volumes:
+    bk_clone_db_data: {}
