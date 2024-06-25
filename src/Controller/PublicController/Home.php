@@ -11,11 +11,12 @@
     use Doctrine\ORM\EntityManagerInterface;
     use App\Forms\Fields\Public\Housing\SearchesHousingFields;
     use App\Forms\Types\Public\Housing\SearchesHousingTypes;
+    use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
     class Home extends AbstractController
     {
         #[Route(path: '/', name: 'home')]
-        public function index(Request $request, EntityManagerInterface $entityManager): Response
+        public function index(Request $request, EntityManagerInterface $entityManager, SessionInterface $session): Response
         {
             $searchHousingFields = new SearchesHousingFields();
 
@@ -49,23 +50,40 @@
                 /**
                  * form builder with HousingConfiguration for research values of kidsIsAccept and peopleCanStay
                  */
-                if(!empty($searchHousingFields->getPeopleCanStay()) && !empty($searchHousingFields->getKidIsAccept())) {
+                if(!empty($housingGeneralInfo)) {
+                    $generalInfoIds = array_map(fn($info) => $info->getHousingId(), $housingGeneralInfo);
+
                     $queryBuilderForPersons = $entityManager->createQueryBuilder();
                     $queryBuilderForPersons
                         ->select('hc')
                         ->from(HousingConfigurations::class, 'hc')
                         ->leftJoin('hc.housingGeneralInfo', 'hgi')
-                        ->where('hc.kidsIsAccept = :kidsIsAccept')
-                        ->andWhere('hc.peopleCanStay >= :peopleCanStay')
-                        ->setParameter('kidsIsAccept', $searchHousingFields->getKidIsAccept())
-                        ->setParameter('peopleCanStay', $searchHousingFields->getPeopleCanStay())
+                        ->where('hgi.housingId IN (:generalInfoIds)')
+                        //->andWhere('hc.peopleCanStay >= :peopleCanStay')
+                        //->setParameter('kidsIsAccept', $searchHousingFields->getKidIsAccept())
+                        //->setParameter('peopleCanStay', $searchHousingFields->getPeopleCanStay())
+                        ->setParameter('generalInfoIds', $generalInfoIds)
                     ;
+
+                    if (!empty($searchHousingFields->getPeopleCanStay())) {
+                        $queryBuilderForPersons->andWhere('hc.peopleCanStay >= :peopleCanStay')
+                            ->setParameter('peopleCanStay', $searchHousingFields->getPeopleCanStay());
+                    }
+                    if (!empty($searchHousingFields->getKidIsAccept())) {
+                        $queryBuilderForPersons->andWhere('hc.kidsIsAccept = :kidsIsAccept')
+                            ->setParameter('kidsIsAccept', $searchHousingFields->getKidIsAccept());
+                    }
+
                     $housingConfiguration = $queryBuilderForPersons->getQuery()->getResult();
                 }
 
+                $session->set('housingGeneralInfo', $housingGeneralInfo);
+                $session->set('housingConfiguration', $housingConfiguration);
+
+                return $this->redirectToRoute('searching_results', ['town' => $searchHousingFields->getTown()]);
             }
 
-            return $this->render('index.html.twig', [
+            return $this->render('public/index.html.twig', [
                 'searchingForm' => $searchHousingTypes->createView(),
                 'housingGeneralInfo' => $housingGeneralInfo,
                 'housingConfiguration' => $housingConfiguration,

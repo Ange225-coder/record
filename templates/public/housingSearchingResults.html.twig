@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hotel {# mot clé de la recherche ici #}{% endblock %}
+
+{% block body %}
+    <h1>Search results</h1>
+
+    {# housing searching form here just for display value of main form #}
+    {{ form_start(searchingForm) }}
+        <div style="display: flex;">
+            <div>
+                {{ form_widget(searchingForm.town) }}
+                {{ form_errors(searchingForm.town) }}
+            </div>
+
+            <details>
+                <summary id="summary">Personne : . Enfant : </summary>
+                <div>
+                    Adult : {{ form_widget(searchingForm.peopleCanStay) }}
+                </div>
+
+                <div>
+                    Enfant : {{ form_widget(searchingForm.kidIsAccept) }}
+                </div>
+
+                <button id="finishBtn">Terminé</button>
+            </details>
+
+            <div>
+                <button type="submit">Rechercher</button>
+            </div>
+        </div>
+    {{ form_end(searchingForm) }}
+
+    {# housing research results #}
+    <div>
+        {% if searchingForm.vars.submitted and searchingForm.vars.valid %}
+            {% if housingGeneralInfo is not empty %}
+                {% if housingConfiguration is not empty %}
+                    {#  <h2>{{ housingGeneralInfo|length }} Résultats pour la ville "{{ searchingForm.town.vars.value }}" :</h2> #}
+                    <ul>
+                        {#  {% for info in housingGeneralInfo %}
+                                    <li>{{ info.housingName }} - {{ info.housingAddress }}</li>
+                                {% endfor %}
+                        #}
+                    </ul>
+
+                    <h2>{{ searchingForm.town.vars.value}} :  {{ housingConfiguration|length }} établissements trouvés</h2>
+
+                    <ul>
+                        {% for config in housingConfiguration %}
+                            <li>{{ config.housingGeneralInfo.housingName }} - Capacité : {{ config.peopleCanStay }} - Enfants acceptés : {{ config.kidsIsAccept ? 'Oui' : 'Non' }} - id {{ config.id }}</li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>Aucun appartement trouvé pour ce filtre</p>
+                {% endif %}
+            {% else %}
+                <p>Aucune ville trouvée</p>
+            {% endif %}
+        {% endif %}
+
+    </div>
+{% endblock %}
