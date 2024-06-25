@@ -58,7 +58,7 @@
         #[ORM\Column(type: 'text', nullable: true)]
         private ?string $areaProfil;
 
-        #[ORM\ManyToOne(targetEntity: HousingGeneralInfo::class, inversedBy: 'configurations')]
+        #[ORM\ManyToOne(targetEntity: HousingGeneralInfo::class, inversedBy: 'infra')]
         #[ORM\JoinColumn(name: 'housing_id', referencedColumnName: 'housing_id', nullable: false)]
         private ?HousingGeneralInfo $housingGeneralInfo;
 

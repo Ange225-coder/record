@@ -42,7 +42,7 @@ RUN pecl install xdebug \
     && docker-php-ext-enable xdebug
 
 # Copie du fichier de configuration Xdebug
-COPY xdebug.ini /usr/local/etc/php/conf.d/
+COPY php/xdebug.ini /usr/local/etc/php/conf.d/
 
 # Configuration de Apache
 RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf

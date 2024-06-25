@@ -33,7 +33,7 @@
                 return $this->redirectToRoute('apartment_services', ['housing_id' => $housing_id]);
             }
 
-            return $this->render('partners/housing/adding/apartments/configurations/apartmentEquipments.html.twig', [
+            return $this->render('partners/housing/adding/apartments/infra/apartmentEquipments.html.twig', [
                 'equipmentForm' => $equipmentType->createView(),
             ]);
         }

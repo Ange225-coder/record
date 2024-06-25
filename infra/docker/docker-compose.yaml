@@ -1,0 +1,55 @@
+version: '3'
+
+services:
+    php-env:
+        depends_on:
+            test_proj_db:
+               condition: service_healthy
+        build:
+            context: .
+            dockerfile: ./php/Dockerfile
+        ports:
+            - "9000:8000"
+        volumes:
+            - ./../../..:/var/www/html
+        extra_hosts:
+            - "host.docker.internal:host-gateway"
+
+
+
+
+    test_proj_db:
+        image: mysql:latest
+        restart: always
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+        volumes:
+            - test_proj_db_data:/var/lib/mysql
+        ports:
+            - "3306:3306"
+        healthcheck:
+          test: "mysql --user=root --password=root --execute=\"SELECT 1;\""
+          interval: 2s
+          timeout: 5s
+          retries: 5
+          start_period: 10s
+
+
+    phpmyadmin:
+        image: phpmyadmin:latest
+        depends_on:
+            test_proj_db:
+                condition: service_healthy
+        restart: always
+        ports:
+            - "9003:80"
+        environment:
+            PMA_HOST: test_proj_db  # Ajout de cette ligne
+            PMA_USER: root          # Ajout de cette ligne pour le nom d'utilisateur
+            PMA_PASSWORD: root
+            PMA_ARBITRARY: 1
+        extra_hosts:
+            - "host.docker.internal:host-gateway"
+
+volumes:
+    test_proj_db_data: {}

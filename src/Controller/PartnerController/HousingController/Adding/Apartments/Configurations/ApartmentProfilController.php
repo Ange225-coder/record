@@ -93,7 +93,7 @@
                 return $this->redirectToRoute('pictures', ['housing_id' => $housing_id]);
             }
 
-            return $this->render('partners/housing/adding/apartments/configurations/apartmentProfil.html.twig', [
+            return $this->render('partners/housing/adding/apartments/infra/apartmentProfil.html.twig', [
                 'apartmentProfilForm' => $apartmentProfilTypes->createView(),
             ]);
         }
