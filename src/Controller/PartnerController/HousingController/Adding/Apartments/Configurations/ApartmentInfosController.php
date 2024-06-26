@@ -49,7 +49,7 @@
                 return $this->redirectToRoute('apartment_equipments', ['housing_id' => $housing_id]);
             }
 
-            return $this->render('/partners/housing/adding/apartments/infra/apartmentInfo.html.twig', [
+            return $this->render('/partners/housing/adding/apartments/configurations/apartmentInfo.html.twig', [
                 'apartmentInfoForm' => $apartmentInfoTypes->createView(),
                 'housing_id' => $housing_id,
                 'apartment_name' => $apartmentName,
