@@ -7,7 +7,7 @@
     use App\Entity\Tables\Housing\HousingGeneralInfo;
     use Doctrine\Persistence\ObjectManager;
 
-    class HousingGeneralInfoEntity extends Fixture implements FixtureGroupInterface
+    class HousingGeneralInfoEntityFixture extends Fixture implements FixtureGroupInterface
     {
         public function load(ObjectManager $manager): void
         {
