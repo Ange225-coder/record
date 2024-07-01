@@ -9,6 +9,8 @@
     {{ form_start(searchingForm) }}
         <div style="display: flex;">
             <div>
+                {# , {'attr' : {'value' : app.request.query.get('town') ?? (searchingForm.town.vars.value ?? (housingConfigurationSess is not empty ? housingConfigurationSess : null))}}) #}
+                {# quand on fait une recherche dans la page des recherches mettre le mot de la recherche dans le formulaire #}
                 {{ form_widget(searchingForm.town) }}
                 {{ form_errors(searchingForm.town) }}
             </div>
@@ -61,4 +63,51 @@
         {% endif %}
 
     </div>
+
+    <div>
+        {# result with session datas #}
+        {% if housingConfigurationSess is not empty %}
+            <h2> {{ searchingForm.town.vars.value}} : {{ housingConfigurationSess|length }} résultats trouvés</h2>
+
+            <ul>
+                {% for config in housingConfigurationSess %}
+                    <li>{{ config.housingGeneralInfo.housingName }} - Capacité : {{ config.peopleCanStay }} - Enfants acceptés : {{ config.kidsIsAccept ? 'Oui' : 'Non' }} - id {{ config.id }}</li>
+                {% endfor %}
+            </ul>
+
+        {% endif %}
+    </div>
+{% endblock %}
+
+
+
+
+{% block javascripts %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('finishBtn').addEventListener('click', function(event) {
+                event.preventDefault(); // Empêcher le rechargement de la page
+
+                var peopleCanStay = document.getElementById('searches_housing_types_peopleCanStay').value;
+
+                var kidIsAcceptElements = document.getElementsByName('searches_housing_types[kidIsAccept]');
+                var kidIsAccept;
+                for (var i = 0; i < kidIsAcceptElements.length; i++) {
+                    if (kidIsAcceptElements[i].checked) {
+                        kidIsAccept = kidIsAcceptElements[i].value;
+                        break;
+                    }
+                }
+
+                var summaryText = `Personne : ${peopleCanStay}. Enfant : ${kidIsAccept}`;
+                document.getElementById('summary').textContent = summaryText;
+            });
+
+            // Optionnel : intercepter la soumission du formulaire pour empêcher le rechargement de la page
+            document.getElementById('finishBtn').addEventListener('submit', function(event) {
+                event.preventDefault(); // Empêcher le rechargement de la page
+                // Vous pouvez ajouter ici votre logique de traitement du formulaire via AJAX par exemple
+            });
+        });
+    </script>
 {% endblock %}

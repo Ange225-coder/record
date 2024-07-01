@@ -44,6 +44,12 @@
                         ->setParameter('town', $searchHousingFields->getTown())
                     ;
                     $housingGeneralInfo = $townQueryBuilder->getQuery()->getResult();
+
+                    //if there are no town display message
+                    if(empty($housingGeneralInfo)) {
+                        $this->addFlash('warning', 'Aucune ville trouvée pour cette recherche');
+                        return $this->redirectToRoute('home');
+                    }
                 }
 
 
@@ -75,7 +81,16 @@
                     }
 
                     $housingConfiguration = $queryBuilderForPersons->getQuery()->getResult();
+
+                    if(empty($housingConfiguration)) {
+                        $this->addFlash('warning-conf', 'Aucune configuration correspondante pour cette recherche');
+                        return $this->redirectToRoute('home');
+                    }
                 }
+
+                // Nettoyer les sessions avant la redirection
+                $session->remove('housingGeneralInfo');
+                $session->remove('housingConfiguration');
 
                 $session->set('housingGeneralInfo', $housingGeneralInfo);
                 $session->set('housingConfiguration', $housingConfiguration);

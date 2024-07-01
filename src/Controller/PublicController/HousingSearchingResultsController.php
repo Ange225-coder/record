@@ -18,7 +18,22 @@
         #[Route(path: '/searching-results', name: 'searching_results')]
         public function housingSearchingResults(SessionInterface $session, Request $request, EntityManagerInterface $entityManager): Response
         {
+            // Vérifier si la requête provient directement de ce contrôleur
+            $referer = $request->headers->get('referer');
+            if ($referer && str_contains($referer, $request->getSchemeAndHttpHost() . '/searching-results')) {
+                // Supprimer les données de session existantes seulement si la recherche est effectuée ici
+                $session->remove('housingGeneralInfo');
+                $session->remove('housingConfiguration');
+            }
+
+            $housingConfigurationSess = $session->get('housingConfiguration', []);
+            $housingGeneralInfoSess = $session->get('housingGeneralInfo', []);
+
             $searchHousingFields = new SearchesHousingFields();
+
+            //pre-file this field with current value of town
+            $searchHousingFields->setTown($request->query->get('town'));
+
             $searchHousingTypes = $this->createForm(SearchesHousingTypes::class, $searchHousingFields);
             $searchHousingTypes->handleRequest($request);
 
@@ -73,8 +88,13 @@
                     $housingConfiguration = $queryBuilderForPersons->getQuery()->getResult();
                 }
 
-                return $this->redirectToRoute('searching_results', ['town' => $searchHousingFields->getTown()]);
+                $this->redirectToRoute('searching_results', ['town' => $searchHousingFields->getTown()]);
             }
+
+            //if sessions exist, display infos inside it
+            //if($housingGeneralInfoSess  && $housingConfigurationSess) {
+
+            //}
 
             //get housing searching results from index
             //$session->get('housingGeneralInfo', []);
@@ -84,6 +104,8 @@
                 'searchingForm' => $searchHousingTypes->createView(),
                 'housingGeneralInfo' => $housingGeneralInfo,
                 'housingConfiguration' => $housingConfiguration,
+                'housingConfigurationSess' => $housingConfigurationSess,
+                'housingGeneralInfoSess' => $housingGeneralInfoSess,
             ]);
         }
     }

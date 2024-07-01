@@ -30,7 +30,7 @@
                 return $this->redirectToRoute('apartment_profil', ['housing_id' => $housing_id]);
             }
 
-            return $this->render('partners/housing/adding/apartments/infra/apartmentRules.html.twig', [
+            return $this->render('partners/housing/adding/apartments/configurations/apartmentRules.html.twig', [
                 'apartmentRulesForm' => $apartmentRulesTypes->createView(),
             ]);
         }

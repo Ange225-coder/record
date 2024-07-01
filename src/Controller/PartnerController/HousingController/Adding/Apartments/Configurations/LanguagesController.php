@@ -28,7 +28,7 @@
                 return $this->redirectToRoute('apartment_rules', ['housing_id' => $housing_id]);
             }
 
-            return $this->render('partners/housing/adding/apartments/infra/languages.html.twig', [
+            return $this->render('partners/housing/adding/apartments/configurations/languages.html.twig', [
                 'languagesForm' => $languagesTypes->createView(),
             ]);
         }

@@ -20,7 +20,7 @@
 
         public function load(ObjectManager $manager): void
         {
-            for ($p=1; $p<=7; $p++) {
+            for ($p=1; $p<=10; $p++) {
 
                 $partner = new Partner();
                 $partner->setEmail('partner-'.$p.'@free.fr');
