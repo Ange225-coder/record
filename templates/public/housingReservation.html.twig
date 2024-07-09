@@ -1,0 +1,84 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ housingGeneralInfo.housingName }}{% endblock %}
+
+{% block body %}
+    <section>
+        <h1>{{ housingGeneralInfo.housingName }}</h1>
+
+        <img src="/{{ housingPic }}" alt="{{ housingGeneralInfo.housingName }}" width="200px" height="200px"><br >
+
+        {% if housingConfig is not null %}
+            <div>
+                <h2>Ses points forts</h2>
+
+                <div class="grid">
+
+                    {% if housingConfig.carPark is defined %}
+                        <span>Parking : {{ housingConfig.carPark }}</span>
+                    {% endif %}
+
+                    {% if housingConfig.kidsIsAccept is defined %}
+                        <span>Enfant : {{ housingConfig.kidsIsAccept }}</span>
+                    {% endif %}
+
+                    {% if housingConfig.babyBed is defined %}
+                        <span>Lit bébé : {{ housingConfig.babyBed }}</span>
+                    {% endif %}
+
+                    {% if housingConfig.homeEquipment is defined %}
+                        {% for equipment in housingConfig.homeEquipment %}
+                            <span>{{ equipment }}</span>
+                        {% endfor %}
+                    {% endif %}
+
+                    {% if housingConfig.lunch is defined %}
+                        <span>Petit déjeuner : {{ housingConfig.lunch }}</span>
+                    {% endif %}
+
+                    {% if housingConfig.smoker is defined %}
+                        <span>Hébergement fumeur : {{ housingConfig.smoker }}</span>
+                    {% endif %}
+
+                    {% if housindConfig.smoker is defined %}
+                        <span>Animal de compagnie : {{ housingConfig.animalIsAccept }}</span>
+                    {% endif %}
+
+                    {% if housingConfig.partyIsAccept is defined %}
+                        <span>Fête : {{ housingConfig.partyIsAccept }}</span>
+                    {% endif %}
+
+                </div>
+            </div>
+        {% endif %}
+
+
+        <a href="{{ path('reservation_my_infos', {'housing_id' : housingGeneralInfo.housingId}) }}">Réserver un hébergement pour XOF {{ housingPrice }}</a>
+    </section>
+
+
+{% endblock %}
+
+
+
+
+
+
+
+
+{% block stylesheets %}
+    <style>
+        span {
+            border: 1px solid black;
+            padding: 5px;
+            text-align: center;
+            border-radius: 3px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 15px;
+        }
+    </style>
+{% endblock %}

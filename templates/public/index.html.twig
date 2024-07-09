@@ -130,6 +130,14 @@
     <section>
         <h1>Destination en vogue</h1>
         <p>Option les plus populaires parmi les habitants en Côte d'Ivoire</p>
+
+        {% for towns in popularDestination %}
+            {% if towns %}
+                <p>
+                    <a href="{{ path('searching_results', {'town' : towns}) }}">{{ towns }}</a>
+                </p>
+            {% endif %}
+        {% endfor %}
     </section>
 {% endblock %}
 

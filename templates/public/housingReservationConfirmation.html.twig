@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Record.com : Confirmation{% endblock %}
+
+{% block body %}
+    <section>
+        <p>Confirmé</p>
+
+        <h1>Votre reservation à {{ reservation.housingTown }} est confirmé</h1>
+
+        {# revoir cette ligne dans le cas l'utilisateur n'est pas confimé #}
+        <p>Votre confirmation a bien été envoyée à l'adresse {{ app.user.email }}</p>
+    </section>
+
+
+    <section>
+        <h1>Récapitulatif de la reservation</h1>
+
+        <div>
+            <h2>{{ reservation.housingName }}</h2>
+
+            <p>
+                Montant total : <strong>XOF {{ reservation.housingPrice }}</strong>
+            </p>
+        </div>
+    </section>
+
+
+    <section>
+        <p>
+            Numéro de reservation : <strong>{{ reservation.reservationNumber }}</strong>
+        </p>
+    </section>
+
+{% endblock %}

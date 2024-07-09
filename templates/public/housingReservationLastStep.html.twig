@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Record.com : dernières informations{% endblock %}
+
+{% block body %}
+    <section>
+        {# left part : in this part, collect datas for the housing a bout the current reservation #}
+
+        {# right part #}
+        <div>
+            {{ form_start(reservationLastStepForm) }}
+                {{ form_widget(reservationLastStepForm.privacyPolicy) }}<br >
+
+                <div>
+                    <button type="submit">Finaliser la reservation</button>
+                </div>
+            {{ form_end(reservationLastStepForm) }}
+        </div>
+    </section>
+{% endblock %}
+
+
+
+
+
+{% block stylesheets %}
+    <style>
+        input {
+            display: block;
+        }
+    </style>
+{% endblock %}

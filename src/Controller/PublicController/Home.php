@@ -4,6 +4,8 @@
 
     use App\Entity\Tables\Housing\HousingConfigurations;
     use App\Entity\Tables\Housing\HousingGeneralInfo;
+    use App\Entity\Tables\Housing\HousingPictures;
+    use App\Entity\Tables\Housing\HousingPriceAndSchedule;
     use Symfony\Component\HttpFoundation\Response;
     use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
     use Symfony\Component\Routing\Annotation\Route;
@@ -29,6 +31,8 @@
              */
             $housingGeneralInfo = [];
             $housingConfiguration = [];
+            $pictures = [];
+            $prices = [];
 
             if($searchHousingTypes->isSubmitted() && $searchHousingTypes->isValid()) {
 
@@ -45,7 +49,7 @@
                     ;
                     $housingGeneralInfo = $townQueryBuilder->getQuery()->getResult();
 
-                    //if there are no town display message
+                    //if there are no town, display message
                     if(empty($housingGeneralInfo)) {
                         $this->addFlash('warning', 'Aucune ville trouvée pour cette recherche');
                         return $this->redirectToRoute('home');
@@ -65,9 +69,6 @@
                         ->from(HousingConfigurations::class, 'hc')
                         ->leftJoin('hc.housingGeneralInfo', 'hgi')
                         ->where('hgi.housingId IN (:generalInfoIds)')
-                        //->andWhere('hc.peopleCanStay >= :peopleCanStay')
-                        //->setParameter('kidsIsAccept', $searchHousingFields->getKidIsAccept())
-                        //->setParameter('peopleCanStay', $searchHousingFields->getPeopleCanStay())
                         ->setParameter('generalInfoIds', $generalInfoIds)
                     ;
 
@@ -88,20 +89,77 @@
                     }
                 }
 
-                // Nettoyer les sessions avant la redirection
+
+                //get pictures for each housing configuration
+                if(!empty($housingGeneralInfo) && !empty($housingConfiguration)) {
+                    $generalInfoIds = array_map(fn($info) => $info->getHousingId(), $housingGeneralInfo);
+
+                    $picturesQueryBuilder = $entityManager->createQueryBuilder();
+                    $picturesQueryBuilder
+                        ->select('hp')
+                        ->from(HousingPictures::class, 'hp')
+                        ->where('hp.housingGeneralInfo IN (:generalInfoIds)')
+                        ->setParameter('generalInfoIds', $generalInfoIds);
+                    $pictures = $picturesQueryBuilder->getQuery()->getResult();
+                }
+
+
+                //get price per night for each housing configuration
+                if(!empty($housingGeneralInfo) && !empty($housingConfiguration)) {
+                    $generalInfoIds = array_map(fn($info) => $info->getHousingId(), $housingGeneralInfo);
+
+                    $priceQueryBuilder = $entityManager->createQueryBuilder();
+                    $priceQueryBuilder
+                        ->select('IDENTITY(ppn.housingGeneralInfo) AS housingGeneralInfoId, ppn.pricePerNight')
+                        ->from(HousingPriceAndSchedule::class, 'ppn')
+                        ->where('ppn.housingGeneralInfo IN (:generalInfoIds)')
+                        ->setParameter('generalInfoIds', $generalInfoIds);
+                    $pricePerNight = $priceQueryBuilder->getQuery()->getResult();
+
+                    foreach ($pricePerNight as $price) {
+                        $prices[$price['housingGeneralInfoId']] = $price['pricePerNight'];
+                    }
+                }
+
+                //clean sessions before redirections
                 $session->remove('housingGeneralInfo');
                 $session->remove('housingConfiguration');
+                $session->remove('housingPictures');
+                $session->remove('reservation_price');
 
                 $session->set('housingGeneralInfo', $housingGeneralInfo);
                 $session->set('housingConfiguration', $housingConfiguration);
+                $session->set('housingPictures', $pictures);
+                $session->set('reservation_price', $prices);
 
                 return $this->redirectToRoute('searching_results', ['town' => $searchHousingFields->getTown()]);
             }
+
+            //get infos for popular destination
+            $popularDestination = $this->popularDestination($entityManager);
 
             return $this->render('public/index.html.twig', [
                 'searchingForm' => $searchHousingTypes->createView(),
                 'housingGeneralInfo' => $housingGeneralInfo,
                 'housingConfiguration' => $housingConfiguration,
+                'pictures' => $pictures,
+                'reservation_price' => $prices,
+                'popularDestination' => $popularDestination,
             ]);
+        }
+
+
+        private function popularDestination(EntityManagerInterface $entityManager): array
+        {
+            $destinations = $entityManager->getRepository(HousingGeneralInfo::class)->findAll();
+
+            $towns = [];
+            foreach ($destinations as $destination) {
+                $town = $destination->getHousingTown();
+                if(!in_array($town, $towns)) {
+                    $towns[] = $town;
+                }
+            }
+            return $towns;
         }
     }

@@ -1,0 +1,109 @@
+{% extends 'base.html.twig' %}
+
+
+{% block title %}Record.com : vos informations{% endblock %}
+
+{% block body %}
+    <section>
+        {# left part #}
+        <div>
+
+            {# housing info #}
+            <div>
+                <h1>{{ housingGeneralInfo.housingName }}</h1>
+
+                {% if housingConfig is not null %}
+
+                    {% if housingConfig.homeEquipment is defined %}
+                        {% for equipment in housingConfig.homeEquipment %}
+                            <span>{{ equipment }}</span>
+                        {% endfor %}
+                    {% endif %}
+
+                    {% if housingConfig.carPark is defined %}
+                        <span>{{ housingConfig.carPark }}</span>
+                    {% endif %}
+
+                    {% if housingConfig.lunch is defined %}
+                        <span>{{ housingConfig.lunch }}</span>
+                    {% endif %}
+
+                {% endif %}
+            </div>
+
+            {# summary of the amount #}
+            <div>
+                <h1>Récapitulatif du montant</h1>
+
+                <h2>Montant total : XOF {{ housingPrice.pricePerNight }}</h2>
+            </div>
+        </div>
+
+
+
+        {# right part #}
+        <div>
+
+            {# user #}
+            <div>
+
+                {% if app.user is null %}
+                    <p>
+                        <a href="{{ path('user_login') }}">Connectez-vous ou </a> ou <a href="#">Inscrivez-vous</a>
+                    </p>
+                {% else %}
+                    <p>
+                        Vous êtes connecté(e)<br >
+                        {{ app.user.email }}
+                    </p>
+                {% endif %}
+            </div>
+
+
+            {# contact details #}
+            <div>
+                <h1>Saisir vos coordonnées</h1>
+
+                <p>Vous y êtes presque ! Compléter seulement les informations requises*</p>
+
+                {{ form_start(reservationInfoForm, {'attr' : {'novalidate' : 'novalidate'}}) }}
+                    <div>
+                        <p>
+                            {{ form_label(reservationInfoForm.firstName) }}<br >
+                            {{ form_widget(reservationInfoForm.firstName) }}<br >
+                            {{ form_errors(reservationInfoForm.firstName) }}
+                        </p>
+
+                        <p>
+                            {{ form_label(reservationInfoForm.lastName) }}<br >
+                            {{ form_widget(reservationInfoForm.lastName) }}<br >
+                            {{ form_errors(reservationInfoForm.lastName) }}
+                        </p>
+
+                        <p>
+                            {{ form_label(reservationInfoForm.email) }}<br >
+                            {{ form_widget(reservationInfoForm.email, {'attr' : {'value' : app.user ? app.user.email}}) }}<br >
+                            {{ form_errors(reservationInfoForm.email) }}
+                        </p>
+
+                        <p>
+                            {{ form_label(reservationInfoForm.location) }}<br >
+                            {{ form_widget(reservationInfoForm.location) }}<br >
+                            {{ form_errors(reservationInfoForm.location) }}
+                        </p>
+
+                        <p>
+                            {{ form_label(reservationInfoForm.phone) }}<br >
+                            {{ form_widget(reservationInfoForm.phone) }}<br >
+                            {{ form_errors(reservationInfoForm.phone) }}
+                        </p>
+
+                        <p>
+                            <button type="submit">Prochaine étape : dernières informations</button>
+                        </p>
+                    </div>
+                {{ form_end(reservationInfoForm) }}
+            </div>
+        </div>
+    </section>
+{% endblock %}

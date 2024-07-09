@@ -30,6 +30,7 @@
             ];
 
             $fileSystem = new Filesystem();
+            //TODO: revoir cette partie car cela crée un autre dossier dans l'arborescence du projet
             $targetDirectory = 'apartments/adding/pictures/';
 
             //create target directory if it does not exist

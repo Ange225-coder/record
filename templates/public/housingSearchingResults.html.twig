@@ -39,21 +39,35 @@
         {% if searchingForm.vars.submitted and searchingForm.vars.valid %}
             {% if housingGeneralInfo is not empty %}
                 {% if housingConfiguration is not empty %}
-                    {#  <h2>{{ housingGeneralInfo|length }} Résultats pour la ville "{{ searchingForm.town.vars.value }}" :</h2> #}
-                    <ul>
-                        {#  {% for info in housingGeneralInfo %}
-                                    <li>{{ info.housingName }} - {{ info.housingAddress }}</li>
-                                {% endfor %}
-                        #}
-                    </ul>
 
                     <h2>{{ searchingForm.town.vars.value}} :  {{ housingConfiguration|length }} établissements trouvés</h2>
 
-                    <ul>
-                        {% for config in housingConfiguration %}
-                            <li>{{ config.housingGeneralInfo.housingName }} - Capacité : {{ config.peopleCanStay }} - Enfants acceptés : {{ config.kidsIsAccept ? 'Oui' : 'Non' }} - id {{ config.id }}</li>
-                        {% endfor %}
-                    </ul>
+
+                    {% for config in housingConfiguration %}
+                        <div style="display: flex; border: 1px solid">
+                            {% for pic in housingPictures %}
+                                {% if pic.housingGeneralInfo.housingId == config.housingGeneralInfo.housingId %}
+                                    <a href="{{ path('reservation', {'housing_id' : config.housingGeneralInfo.housingId}) }}" target="_blank">
+                                        <img src="{{ asset(pic.teaserPic) }}" alt="{{ config.housingGeneralInfo.housingName }}" width="200px" height="200px" style="display: block">
+                                    </a>
+                                {% endif %}
+                            {% endfor %}
+
+                            <p>
+                                <a href="{{ path('reservation', {'housing_id' : config.housingGeneralInfo.housingId}) }}" target="_blank"">
+                                    {{ config.housingGeneralInfo.housingName }}
+                                </a>
+                            </p>
+
+                            {% if reservationPrice[config.housingGeneralInfo.housingId] is defined %}
+                                <p>
+                                    <strong>XOF {{ reservationPrice[config.housingGeneralInfo.housingId] }}</strong>
+                                </p>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+
+
                 {% else %}
                     <p>Aucun appartement trouvé pour ce filtre</p>
                 {% endif %}
@@ -64,19 +78,73 @@
 
     </div>
 
+
     <div>
         {# result with session datas #}
         {% if housingConfigurationSess is not empty %}
             <h2> {{ searchingForm.town.vars.value}} : {{ housingConfigurationSess|length }} résultats trouvés</h2>
 
-            <ul>
-                {% for config in housingConfigurationSess %}
-                    <li>{{ config.housingGeneralInfo.housingName }} - Capacité : {{ config.peopleCanStay }} - Enfants acceptés : {{ config.kidsIsAccept ? 'Oui' : 'Non' }} - id {{ config.id }}</li>
-                {% endfor %}
-            </ul>
+
+            {% for config in housingConfigurationSess %}
+                <div style="display: flex; border: 1px solid gray">
+                    {% for picSess in housingPicturesSess %}
+                        {% if picSess.housingGeneralInfo.housingId == config.housingGeneralInfo.housingId %}
+                            <a href="{{ path('reservation', {'housing_id' : config.housingGeneralInfo.housingId}) }}" target="_blank">
+                                <img src="{{ asset(picSess.teaserPic) }}" alt="{{ config.housingGeneralInfo.housingName }} image" style="max-width: 200px; height: 200px; display: block">
+                            </a>
+                        {% endif %}
+                    {% endfor %}
+
+                    <p>
+                        <a href="{{ path('reservation', {'housing_id' : config.housingGeneralInfo.housingId}) }}" target="_blank">
+                            {{ config.housingGeneralInfo.housingName }}
+                        </a>
+                    </p>
+
+                    <p>
+                        {% if pricePerNightSess[config.housingGeneralInfo.housingId] is defined %}
+                            <strong>XOF {{ pricePerNightSess[config.housingGeneralInfo.housingId] }}</strong>
+                        {% else %}
+                            Price not available
+                        {% endif %}
+                    </p>
+                </div>
+            {% endfor %}
+
 
         {% endif %}
     </div>
+
+
+    {% if housingConfigurationSess is empty and (housingConfiguration is empty or not searchingForm.vars.submitted) %}
+        <div>
+            {# popular destination result #}
+            <h2>{{ town }} : {{ popularDestinationResult|length }} établissements trouvés</h2>
+            {% for townResult in popularDestinationResult %}
+                <div style="border: 1px solid; display: flex; margin-bottom: 20px">
+                    {% for picture in townResult.pictures %}
+                        <a href="{{ path('reservation', {'housing_id' : townResult.housingId}) }}" target="_blank">
+                            <img src="{{ asset(picture.getTeaserPic()) }}" alt="{{ townResult.housingName }}" width="200px" height="200px" style="display: block">
+                        </a>
+                    {% endfor %}
+
+                    <p>
+                        <a href="{{ path('reservation', {'housing_id' : townResult.housingId}) }}" target="_blank">
+                            {{ townResult.housingName }}
+                        </a>
+                    </p>
+
+
+                    <p>
+                        {% for pricing in townResult.priceAndSchedule %}
+                            <strong>XOF {{ pricing.pricePerNight }}</strong>
+                        {% endfor %}
+                    </p>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
 {% endblock %}
 
 
