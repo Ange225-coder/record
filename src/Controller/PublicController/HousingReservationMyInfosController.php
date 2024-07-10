@@ -41,6 +41,12 @@
                 $session->set('housing_price', $housingPriceAndSchedule->getPricePerNight());
                 $session->set('client_first_name', $reservationMyInfosFields->getFirstName());
                 $session->set('client_last_name', $reservationMyInfosFields->getLastName());
+                if($this->getUser()) {
+                    $session->set('client_email', $this->getUser()->getUserIdentifier());
+                }
+                else {
+                    $session->set('client_email', $reservationMyInfosFields->getEmail());
+                }
 
                 /**
                  * reservation number manage

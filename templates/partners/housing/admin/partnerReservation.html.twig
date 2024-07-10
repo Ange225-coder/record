@@ -1,0 +1,102 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Réservations.Record.com{% endblock %}
+
+{% block body %}
+    <header>
+        <h1>Record.com | <span class="weight">{{ app.user.firstName }} {{ app.user.lastName }}</span></h1>
+
+        <details>
+            <summary><i class="bi bi-person-circle"></i></summary>
+
+            <div>
+                <p>
+                    <a href="{{ path('partner_logout') }}" style="color: red;">Déconnexion</a>
+                </p>
+            </div>
+        </details>
+    </header>
+
+
+    <div>
+        <p>
+            <a href="{{ path('partner_admin_home') }}">Page d'accueil du groupe</a>
+        </p>
+
+        <p>
+            <a href="{{ path('partner_admin_reservation') }}">Réservation</a>
+        </p>
+    </div>
+
+    <section>
+        <h1>Reservations</h1>
+
+
+        <table>
+            <tr>
+                <th>Identifiant de l'établissement</th>
+                <th>Nom de l'établissement</th>
+                <th>Address</th>
+                <th>Nom du client</th>
+                <th>Numéro de réservation</th>
+                <th>Réservé le</th>
+            </tr>
+
+
+
+            {% for reservation in reservations %}
+                <tr class="tr">
+                    <td>{{ reservation.id }}</td>
+                    <td>{{ reservation.housingName }}</td>
+                    <td>{{ reservation.housingAddress }}, {{ reservation.housingTown }}</td>
+                    <td><a href="#">{{ reservation.clientFirstName }} {{ reservation.clientLastName }}</a></td>
+                    <td><a href="#">{{ reservation.reservationNumber }}</a></td>
+                    <td>{{ reservation.reservationDate|date("d M Y") }}</td>
+                </tr>
+            {% endfor %}
+
+        </table>
+    </section>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+    <style>
+        header span {
+            font-weight: normal;
+            font-size: .6em;
+        }
+
+        table {
+            width: 100%;
+            margin: auto;
+            border-collapse: collapse;
+        }
+
+        .tr {
+            //margin-top: 50px;
+            //border: 1px solid;
+            //padding-top: 50px;
+            line-height: 30px;
+        }
+
+        tr td {
+            text-align: center;
+        }
+
+        th {
+            border-bottom: 1px solid;
+        }
+    </style>
+{% endblock %}

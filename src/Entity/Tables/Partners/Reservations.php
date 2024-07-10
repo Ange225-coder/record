@@ -37,6 +37,9 @@
         #[ORM\Column(type: 'string', length: 55)]
         private string $clientLastName;
 
+        #[ORM\Column(type: 'string', length: 120)]
+        private string $clientEmail;
+
         #[ORM\Column(type: 'integer')]
         private int $reservationNumber;
 
@@ -91,6 +94,11 @@
         public function setClientLastName(string $clientLastName): void
         {
             $this->clientLastName = $clientLastName;
+        }
+
+        public function setClientEmail(string $clientEmail): void
+        {
+            $this->clientEmail = $clientEmail;
         }
 
         public function setHousingPrice(int $housingPrice): void
@@ -153,6 +161,11 @@
         public function getClientLastName(): string
         {
             return $this->clientLastName;
+        }
+
+        public function getClientEmail(): string
+        {
+            return $this->clientEmail;
         }
 
         public function getHousingPrice(): int

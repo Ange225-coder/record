@@ -3,7 +3,31 @@
 {% block title %}Page d'accueil du groupe.Record.com{% endblock %}
 
 {% block body %}
-    <h1>Page d'accueil du groupe</h1>
+    <header>
+        <h1>Record.com | <span class="weight">{{ app.user.firstName }} {{ app.user.lastName }}</span></h1>
+
+        <details>
+            <summary><i class="bi bi-person-circle"></i></summary>
+
+            <div>
+                <p>
+                    <a href="{{ path('partner_logout') }}" style="color: red;">Déconnexion</a>
+                </p>
+            </div>
+        </details>
+    </header>
+
+
+    <div>
+        <p>
+            <a href="{{ path('partner_admin_home') }}">Page d'accueil du groupe</a>
+        </p>
+
+        <p>
+            <a href="{{ path('partner_admin_reservation') }}">Réservation</a>
+        </p>
+    </div>
+
 
     {% for house in all_housing %}
 
@@ -41,4 +65,19 @@
         </div>
 
     {% endfor %}
+{% endblock %}
+
+
+
+
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+    <style>
+        header span {
+            font-weight: normal;
+            font-size: .6em;
+        }
+    </style>
 {% endblock %}

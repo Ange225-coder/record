@@ -30,6 +30,7 @@
             $housingPrice = $session->get('housing_price');
             $clientFirstName = $session->get('client_first_name');
             $clientLastName = $session->get('client_last_name');
+            $clientEmail = $session->get('client_email');
             $reservationNumber = $session->get('reservation_number');
             $partner = $session->get('partner');
 
@@ -45,6 +46,7 @@
                 $reservationEntity->setHousingPrice($housingPrice);
                 $reservationEntity->setClientFirstName($clientFirstName);
                 $reservationEntity->setClientLastName($clientLastName);
+                $reservationEntity->setClientEmail($clientEmail);
                 $reservationEntity->setReservationNumber($reservationNumber);
                 $reservationEntity->setPartner($partner);
                 $reservationEntity->setReservationDate(new \DateTime());
@@ -52,14 +54,9 @@
                 $entityManager->persist($reservationEntity);
                 $entityManager->flush();
 
-                //get reservation id after the flush
-                $reservationId = $entityManager->getRepository(Reservations::class)->findOneBy([
-                    'housingId' => $housing_id,
-                ]);
-
                 return $this->redirectToRoute('reservation_confirmation', [
                     'housing_id' => $housingId,
-                    'reservation_id' => $reservationId->getId(),
+                    'reservation_id' => $reservationEntity->getId(),
                 ]);
             }
 

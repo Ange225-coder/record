@@ -8,8 +8,12 @@
 
         <h1>Votre reservation à {{ reservation.housingTown }} est confirmé</h1>
 
-        {# revoir cette ligne dans le cas l'utilisateur n'est pas confimé #}
-        <p>Votre confirmation a bien été envoyée à l'adresse {{ app.user.email }}</p>
+        {% if app.user is not null %}
+            <p>Votre confirmation a bien été envoyée à l'adresse {{ reservation.clientEmail }}</p>
+        {% else %}
+            <p>Votre confirmation de reservation est dans votre boîte de réception</p>
+        {% endif %}
+
     </section>
 
 
