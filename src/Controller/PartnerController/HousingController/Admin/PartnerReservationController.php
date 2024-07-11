@@ -2,7 +2,6 @@
 
     namespace App\Controller\PartnerController\HousingController\Admin;
 
-    use App\Entity\Tables\Partners\Partner;
     use App\Entity\Tables\Partners\Reservations;
     use Symfony\Component\HttpFoundation\Response;
     use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
