@@ -2,7 +2,7 @@
 services:
     php-env:
         depends_on:
-            test_proj_db:
+            mysql_db:
                condition: service_healthy
         build:
             context: .
@@ -17,13 +17,13 @@ services:
 
 
 
-    test_proj_db:
+    mysql_db:
         image: mysql:latest
         restart: always
         environment:
             MYSQL_ROOT_PASSWORD: root
         volumes:
-            - test_proj_db_data:/var/lib/mysql
+            - mysql_db_data:/var/lib/mysql
         ports:
             - "3306:3306"
         healthcheck:
@@ -37,13 +37,13 @@ services:
     phpmyadmin:
         image: phpmyadmin:latest
         depends_on:
-            test_proj_db:
+            mysql_db:
                 condition: service_healthy
         restart: always
         ports:
-            - "9003:80"
+            - "9002:80"
         environment:
-            PMA_HOST: test_proj_db  # Ajout de cette ligne
+            PMA_HOST: mysql_db  # Ajout de cette ligne
             PMA_USER: root          # Ajout de cette ligne pour le nom d'utilisateur
             PMA_PASSWORD: root
             PMA_ARBITRARY: 1
@@ -51,4 +51,4 @@ services:
             - "host.docker.internal:host-gateway"
 
 volumes:
-    test_proj_db_data: {}
+    mysql_db_data: {}
