@@ -40,27 +40,27 @@
 
                     $entityManager->persist($userEntity);
                     $entityManager->flush();
+
+                    //authenticate user here
+                    try {
+                        $authenticator->authenticateUser($userEntity, $usersAuthenticator, $request);
+
+                        return $this->redirectToRoute('home');
+                    }
+                    catch (CustomUserMessageAuthenticationException $e) {
+                        $this->addFlash('authentication_failed', $e->getMessage());
+
+                        return $this->redirectToRoute('sign_up_pwd_form');
+                    }
+
+                    catch (AuthenticationException $e) {
+                        $this->addFlash('error_authentication', 'Une erreur est survenue');
+
+                        return $this->redirectToRoute('sign_up_pwd_form');
+                    }
                 }
                 else {
                     $pwdFormTypes->get('confirmPwd')->addError(new FormError('Les mot de passe ne sont pas identique, Veuillez réessayer.'));
-                }
-
-                //authenticate user here
-                try {
-                    $authenticator->authenticateUser($userEntity, $usersAuthenticator, $request);
-
-                    return $this->redirectToRoute('home');
-                }
-                catch (CustomUserMessageAuthenticationException $e) {
-                    $this->addFlash('authentication_failed', $e->getMessage());
-
-                    return $this->redirectToRoute('sign_up_pwd_form');
-                }
-
-                catch (AuthenticationException $e) {
-                    $this->addFlash('error_authentication', 'Une erreur est survenue');
-
-                    return $this->redirectToRoute('sign_up_pwd_form');
                 }
             }
 

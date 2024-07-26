@@ -197,6 +197,5 @@
 
         public function eraseCredentials(): void
         {
-            // TODO: Implement eraseCredentials() method.
         }
     }
